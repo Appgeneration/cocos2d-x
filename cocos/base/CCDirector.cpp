@@ -944,6 +944,8 @@ void Director::purgeDirector()
 
     if (_runningScene)
     {
+        //Fix bug : onExitTransitionDidStart was not being called (http://discuss.cocos2d-x.org/t/why-cocos2d-x-v3-purgedirector-doesnt-call-onexittransitiondidstart/16447/1)
+        _runningScene->onExitTransitionDidStart(); KBR_COCOS_CHANGES
         _runningScene->onExit();
         _runningScene->cleanup();
         _runningScene->release();

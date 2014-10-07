@@ -79,6 +79,10 @@ public:
     
     /** Get retina factor */
     int getRetinaFactor() const { return _retinaFactor; }
+    
+    virtual void lockOpenGLContext() override;
+    
+    virtual void unlockOpenGLContext() override;
 
 protected:
     GLView();

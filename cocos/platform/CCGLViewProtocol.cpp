@@ -416,4 +416,12 @@ float GLViewProtocol::getScaleY() const
     return _scaleY;
 }
 
+void GLViewProtocol::lockOpenGLContext() {
+    
+}
+
+void GLViewProtocol::unlockOpenGLContext() {
+    
+}
+
 NS_CC_END

@@ -900,6 +900,13 @@ Copyright (C) 2008 Apple Inc. All Rights Reserved.
     }
 }
 
+#if CC_TARGET_PLATFORM == CC_PLATFORM_IOS
+
+//Method needed by Vuforia
+- (void)renderFrameQCAR {} KBR_COCOS_CHANGES
+
+#endif
+
 @end
 
 #endif // CC_PLATFORM_IOS

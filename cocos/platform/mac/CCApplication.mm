@@ -83,7 +83,20 @@ int Application::run()
     {
         lastTime = getCurrentMillSecond();
         
+        /* Note: In Mac we need to lock the opengl context before drawing
+         * if we are going to have multiple parts of our application
+         *  that use a different context in the same thred
+         */
+        glview->lockOpenGLContext(); KBR_COCOS_CHANGES
+        
         director->mainLoop();
+        
+        /* Note: In Mac we need to unlock the opengl context after drawing
+         * if we are going to have multiple parts of our application
+         *  that use a different context in the same thred
+         */
+        glview->unlockOpenGLContext(); KBR_COCOS_CHANGES
+        
         glview->pollEvents();
 
         curTime = getCurrentMillSecond();
@@ -100,6 +113,8 @@ int Application::run()
     */
     if (glview->isOpenGLReady())
     {
+        glview->lockOpenGLContext(); KBR_COCOS_CHANGES
+        
         director->end();
         director->mainLoop();
     }

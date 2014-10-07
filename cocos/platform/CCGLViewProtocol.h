@@ -164,6 +164,10 @@ public:
     virtual void handleTouchesMove(int num, intptr_t ids[], float xs[], float ys[]);
     virtual void handleTouchesEnd(int num, intptr_t ids[], float xs[], float ys[]);
     virtual void handleTouchesCancel(int num, intptr_t ids[], float xs[], float ys[]);
+    
+    /** Mac-only methods that were added to enable the correct lock/unlock of openGL contexts **/
+    virtual void lockOpenGLContext();
+    virtual void unlockOpenGLContext();
 
     /**
      * Get the opengl view port rectangle.
@@ -182,6 +186,7 @@ public:
 
     /** returns the current Resolution policy */
     ResolutionPolicy getResolutionPolicy() const { return _resolutionPolicy; }
+    
 
 protected:
     void updateDesignResolutionSize();

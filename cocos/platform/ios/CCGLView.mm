@@ -87,7 +87,7 @@ GLView::GLView()
 GLView::~GLView()
 {
     CCEAGLView *glview = (CCEAGLView*) _eaglview;
-    [glview release];
+    KBR_COCOS_CHANGES //[glview release];
 }
 
 bool GLView::initWithEAGLView(void *eaglview)
@@ -170,7 +170,8 @@ void GLView::end()
     CCEAGLView *eaglview = (CCEAGLView*) _eaglview;
 
     [eaglview removeFromSuperview];
-    [eaglview release];
+    KBR_COCOS_CHANGES //[eaglview release];
+    release(); KBR_COCOS_CHANGES
 }
 
 

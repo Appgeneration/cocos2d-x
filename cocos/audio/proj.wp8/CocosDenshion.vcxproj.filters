@@ -27,6 +27,9 @@
     <ClInclude Include="..\wp8\MediaStreamer.h">
       <Filter>Source Files</Filter>
     </ClInclude>
+    <ClInclude Include="..\wp8\AudioServiceLocator.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\wp8\Audio.cpp">
@@ -36,6 +39,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\wp8\SimpleAudioEngine.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\wp8\AudioServiceLocator.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

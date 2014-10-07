@@ -147,20 +147,20 @@ unsigned int Ref::getReferenceCount() const
 
 #if CC_USE_MEM_LEAK_DETECTION
 
-static std::list<Ref*> __refAllocationList;
+static std::list<Ref*>* __refAllocationList;
 
 void Ref::printLeaks()
 {
     // Dump Ref object memory leaks
-    if (__refAllocationList.empty())
+    if (__refAllocationList->empty())
     {
         log("[memory] All Ref objects successfully cleaned up (no leaks detected).\n");
     }
     else
     {
-        log("[memory] WARNING: %d Ref objects still active in memory.\n", (int)__refAllocationList.size());
+        log("[memory] WARNING: %d Ref objects still active in memory.\n", (int)__refAllocationList->size());
 
-        for (const auto& ref : __refAllocationList)
+        for (const auto& ref : *__refAllocationList)
         {
             CC_ASSERT(ref);
             const char* type = typeid(*ref).name();
@@ -171,22 +171,26 @@ void Ref::printLeaks()
 
 static void trackRef(Ref* ref)
 {
+    if (!__refAllocationList) {
+        __refAllocationList = new std::list<Ref*>;
+    }
+    
     CCASSERT(ref, "Invalid parameter, ref should not be null!");
 
     // Create memory allocation record.
-    __refAllocationList.push_back(ref);
+    __refAllocationList->push_back(ref);
 }
 
 static void untrackRef(Ref* ref)
 {
-    auto iter = std::find(__refAllocationList.begin(), __refAllocationList.end(), ref);
-    if (iter == __refAllocationList.end())
+    auto iter = std::find(__refAllocationList->begin(), __refAllocationList->end(), ref);
+    if (iter == __refAllocationList->end())
     {
         log("[memory] CORRUPTION: Attempting to free (%s) with invalid ref tracking record.\n", typeid(*ref).name());
         return;
     }
 
-    __refAllocationList.erase(iter);
+    __refAllocationList->erase(iter);
 }
 
 #endif // #if CC_USE_MEM_LEAK_DETECTION

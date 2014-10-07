@@ -31,6 +31,7 @@ THE SOFTWARE.
 namespace CocosDenshion {
     namespace android {
         class AndroidJavaEngine : public SimpleAudioEngine {
+        public:
             ~AndroidJavaEngine();
 
             void preloadBackgroundMusic(const char* pszFilePath);

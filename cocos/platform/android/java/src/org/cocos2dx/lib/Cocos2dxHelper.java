@@ -38,6 +38,7 @@ import android.content.res.AssetManager;
 import android.os.Build;
 import android.preference.PreferenceManager.OnActivityResultListener;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.Display;
 import android.view.WindowManager;
 
@@ -52,7 +53,7 @@ public class Cocos2dxHelper {
 	// Fields
 	// ===========================================================
 
-	private static Cocos2dxMusic sCocos2dMusic;
+	public static Cocos2dxMusic sCocos2dMusic;
 	private static Cocos2dxSound sCocos2dSound;
 	private static AssetManager sAssetManager;
 	private static Cocos2dxAccelerometer sCocos2dxAccelerometer;

@@ -1664,8 +1664,8 @@ const Mat4& Node::getNodeToParentTransform() const
         // If skew is needed, apply skew and then anchor point
         if (needsSkewMatrix)
         {
-            Mat4 skewMatrix(1, (float)tanf(CC_DEGREES_TO_RADIANS(_skewY)), 0, 0,
-                              (float)tanf(CC_DEGREES_TO_RADIANS(_skewX)), 1, 0, 0,
+            Mat4 skewMatrix(1, (float)tanf(CC_DEGREES_TO_RADIANS(_skewX)), 0, 0,
+                              (float)tanf(CC_DEGREES_TO_RADIANS(_skewY)), 1, 0, 0,
                               0,  0,  1, 0,
                               0,  0,  0, 1);
 
@@ -2022,6 +2022,9 @@ GLubyte Node::getDisplayedOpacity() const
 
 void Node::setOpacity(GLubyte opacity)
 {
+    if (opacity==0 && _cascadeOpacityEnabled) setVisible(false); KBR_COCOS_CHANGES //see http://discuss.cocos2d-x.org/t/relation-between-nodes-visible-and-opacity-variables/16416
+    else if (opacity>0) setVisible(true);
+    
     _displayedOpacity = _realOpacity = opacity;
     
     updateCascadeOpacity();
@@ -2047,6 +2050,9 @@ bool Node::isCascadeOpacityEnabled(void) const
 
 void Node::setCascadeOpacityEnabled(bool cascadeOpacityEnabled)
 {
+    if (_displayedOpacity==0 && _cascadeOpacityEnabled) setVisible(false); KBR_COCOS_CHANGES //see http://discuss.cocos2d-x.org/t/relation-between-nodes-visible-and-opacity-variables/16416
+    else if (_displayedOpacity>0) setVisible(true);
+    
     if (_cascadeOpacityEnabled == cascadeOpacityEnabled)
     {
         return;

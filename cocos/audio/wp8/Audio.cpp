@@ -45,7 +45,8 @@ void  _stdcall AudioEngineCallbacks::OnCriticalError(HRESULT Error)
 Audio::Audio() :
     m_backgroundID(0),
 	m_soundEffctVolume(1.0f),
-	m_backgroundMusicVolume(1.0f)
+	m_backgroundMusicVolume(1.0f),
+	m_paused(false)
 {
 }
 
@@ -193,6 +194,8 @@ void Audio::PlayBackgroundMusic(const char* pszFilePath, bool bLoop)
 
     StopBackgroundMusic(true);
     PlaySoundEffect(pszFilePath, bLoop, m_backgroundID, true);
+	m_paused = false;
+
 }
 
 void Audio::StopBackgroundMusic(bool bReleaseData)
@@ -207,6 +210,7 @@ void Audio::StopBackgroundMusic(bool bReleaseData)
         UnloadSoundEffect(m_backgroundID);
         RemoveFromList(m_backgroundID);
     }
+	m_paused = false;
 }
 
 void Audio::PauseBackgroundMusic()
@@ -216,6 +220,7 @@ void Audio::PauseBackgroundMusic()
     }
 
     PauseSoundEffect(m_backgroundID);
+	m_paused = true;
 }
 
 void Audio::ResumeBackgroundMusic()
@@ -225,6 +230,7 @@ void Audio::ResumeBackgroundMusic()
     }
 
     ResumeSoundEffect(m_backgroundID);
+	m_paused = false;
 }
 
 void Audio::RewindBackgroundMusic()
@@ -326,6 +332,7 @@ void Audio::PlaySoundEffect(unsigned int sound)
         return;
     }
 
+	m_soundEffects[sound].m_startedPlayingTime = GetTickCount64();
 	m_soundEffects[sound].m_soundEffectStarted = true;
 }
 
@@ -608,4 +615,17 @@ void Audio::RemoveFromList( unsigned int sound )
     m_soundEffects.erase(sound);
 }
 
+bool Audio::isBackgroundMusicPaused() {
+	return m_paused;
+}
 
+int Audio::getBackgroundMusicCurrentTime() {
+	
+	if (!IsBackgroundMusicPlaying())
+	{
+		return -1;
+	}
+
+	ULONGLONG currentTime = GetTickCount64();
+	return (int)(currentTime - m_soundEffects[m_backgroundID].m_startedPlayingTime);
+}

@@ -803,5 +803,13 @@ bool GLView::initGlew()
 
     return true;
 }
+#if (CC_TARGET_PLATFORM != CC_PLATFORM_MAC)
+void GLView::lockOpenGLContext() {
+    
+}
 
+void GLView::unlockOpenGLContext() {
+    
+}
+#endif
 NS_CC_END // end of namespace cocos2d;

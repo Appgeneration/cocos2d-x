@@ -184,11 +184,20 @@ public abstract class Cocos2dxActivity extends Activity implements Cocos2dxHelpe
         if (isAndroidEmulator())
            this.mGLSurfaceView.setEGLConfigChooser(8 , 8, 8, 8, 16, 0);
 
-        this.mGLSurfaceView.setCocos2dxRenderer(new Cocos2dxRenderer());
+        this.mGLSurfaceView.setCocos2dxRenderer(onCreateRenderer());
         this.mGLSurfaceView.setCocos2dxEditText(edittext);
 
         // Set framelayout as the content view
 		setContentView(mFrameLayout);
+	}
+
+	/**
+	 * -- KBR_COCOS_CHANGES --
+	 * This was the best way to have a custom renderer that would allow us 
+	 * to customize the view's appearance at will.
+	 */
+	protected Cocos2dxRenderer onCreateRenderer() {
+		return new Cocos2dxRenderer();
 	}
 	
     public Cocos2dxGLSurfaceView onCreateView() {

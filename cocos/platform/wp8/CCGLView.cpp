@@ -325,6 +325,15 @@ bool GLView::OpenXamlEditBox(Platform::String^ strPlaceHolder, Platform::String^
 }
 
 
+bool GLView::UpdateWebViewState(Platform::String^ url, int x, int y, int width, int height, bool visible, bool destroy) {
+
+	if (m_webViewDelegate)
+	{
+		m_webViewDelegate->Invoke(url, x, y, width, height,visible,destroy);
+		return true;
+	}
+	return false;
+}
 
 // called by orientation change from WP8 XAML
 void GLView::UpdateOrientation(DisplayOrientations orientation)

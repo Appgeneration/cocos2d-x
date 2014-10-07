@@ -177,9 +177,24 @@ double atof(const char* str)
     
     // strip string, only remain 7 numbers after '.'
     char* dot = strchr(buf, '.');
+    char* exp = strchr(buf, 'e');
+    
     if (dot != nullptr && dot - buf + 8 <  MAX_ITOA_BUFFER_SIZE)
     {
-        dot[8] = '\0';
+        KBR_COCOS_CHANGES //fixed problem with exponents (see http://discuss.cocos2d-x.org/t/utils-atof-problem/16625)
+        int dotOffset = 4;
+        
+        if (exp != nullptr && (exp-dot)>dotOffset) {
+            while (*exp != '\0') {
+                dot[dotOffset++] = *exp;
+                exp++;
+            }
+            dot[dotOffset] = '\0';
+        }
+        else {
+            dot[8] = '\0';
+        }
+        
     }
     
     return ::atof(buf);

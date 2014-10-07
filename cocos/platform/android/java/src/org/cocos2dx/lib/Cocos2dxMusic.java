@@ -37,17 +37,17 @@ public class Cocos2dxMusic {
 	// Constants
 	// ===========================================================
 
-	private static final String TAG = Cocos2dxMusic.class.getSimpleName();
+	protected static final String TAG = Cocos2dxMusic.class.getSimpleName();
 
 	// ===========================================================
 	// Fields
 	// ===========================================================
 
 	private final Context mContext;
-	private MediaPlayer mBackgroundMediaPlayer;
+	protected MediaPlayer mBackgroundMediaPlayer;
 	private float mLeftVolume;
 	private float mRightVolume;
-	private boolean mPaused;// whether music is paused state.
+	protected boolean mPaused;// whether music is paused state.
 	private boolean mManualPaused = false;// whether music is paused manually before the program is switched to the background.
 	private String mCurrentPath;
 
@@ -230,7 +230,7 @@ public class Cocos2dxMusic {
 		}
 	}
 	
-	private void initData() {
+	protected void initData() {
 		this.mLeftVolume = 0.5f;
 		this.mRightVolume = 0.5f;
 		this.mBackgroundMediaPlayer = null;
@@ -272,4 +272,5 @@ public class Cocos2dxMusic {
 	// ===========================================================
 	// Inner and Anonymous Classes
 	// ===========================================================
+	
 }

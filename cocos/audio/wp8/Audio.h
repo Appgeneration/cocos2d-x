@@ -33,6 +33,7 @@ struct SoundEffectData
 	uint32						m_soundEffectBufferLength;
 	uint32						m_soundEffectSampleRate;
 	bool						m_soundEffectStarted;
+	ULONGLONG 					m_startedPlayingTime;
 };
 
 class Audio;
@@ -61,12 +62,18 @@ struct StreamingVoiceContext : public IXAudio2VoiceCallback
     STDMETHOD_(void, OnVoiceProcessingPassStart)(UINT32){}
     STDMETHOD_(void, OnVoiceProcessingPassEnd)(){}
     STDMETHOD_(void, OnStreamEnd)(){}
-    STDMETHOD_(void, OnBufferStart)(void*)
+	STDMETHOD_(void, OnBufferStart)(void* pContext)
     {
+		if (pContext) {
+			((SoundEffectData*)pContext)->m_soundEffectStarted = true;
+		}
         ResetEvent(hBufferEndEvent);
     }
     STDMETHOD_(void, OnBufferEnd)(void* pContext)
     {
+		if (pContext) {
+			((SoundEffectData*)pContext)->m_soundEffectStarted = false;
+		}
 		//Trigger the event for the music stream.
 		if (pContext == 0) {
             SetEvent(hBufferEndEvent);
@@ -111,6 +118,8 @@ private:
     AudioEngineCallbacks        m_soundEffectEngineCallback;
 
     unsigned int Hash(const char* key);
+
+	bool						m_paused;
 
 public:
     Audio();
@@ -161,6 +170,10 @@ public:
     void PreloadSoundEffect(const char* pszFilePath, bool isMusic = false);
     void UnloadSoundEffect(const char* pszFilePath);
     void UnloadSoundEffect(unsigned int sound);
+
+	//KBR_COCOS_CHANGES
+	bool isBackgroundMusicPaused();
+	int getBackgroundMusicCurrentTime();
 
 private:
     void RemoveFromList(unsigned int sound);

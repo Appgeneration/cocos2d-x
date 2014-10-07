@@ -160,10 +160,12 @@
     <ClInclude Include="..\include\Export.h" />
     <ClInclude Include="..\include\SimpleAudioEngine.h" />
     <ClInclude Include="..\wp8\Audio.h" />
+    <ClInclude Include="..\wp8\AudioServiceLocator.h" />
     <ClInclude Include="..\wp8\MediaStreamer.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\wp8\Audio.cpp" />
+    <ClCompile Include="..\wp8\AudioServiceLocator.cpp" />
     <ClCompile Include="..\wp8\MediaStreamer.cpp" />
     <ClCompile Include="..\wp8\SimpleAudioEngine.cpp" />
   </ItemGroup>

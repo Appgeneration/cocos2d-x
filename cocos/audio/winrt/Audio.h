@@ -37,7 +37,7 @@ struct SoundEffectData
 };
 
 class Audio;
-class AudioEngineCallbacks: public IXAudio2EngineCallback
+class __declspec(dllexport) AudioEngineCallbacks : public IXAudio2EngineCallback
 {
 private: 
     Audio *m_audio;
@@ -92,7 +92,7 @@ struct StreamingVoiceContext : public IXAudio2VoiceCallback
     }
 };
 
-class Audio 
+class __declspec(dllexport) Audio
 {
 private:
 	IXAudio2*					m_musicEngine;

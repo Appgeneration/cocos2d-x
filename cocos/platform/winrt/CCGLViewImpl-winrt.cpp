@@ -480,4 +480,68 @@ void GLViewImpl::ProcessEvents()
     }
 }
 
+void GLViewImpl::UpdateWebViewState(Platform::String^ url, int x, int y, int width, int height, bool visible, bool destroy) {
+
+	m_panel->Dispatcher->RunAsync(Windows::UI::Core::CoreDispatcherPriority::High, ref new Windows::UI::Core::DispatchedHandler([=]()
+	{
+		if (destroy)
+		{
+			if (_webView != nullptr)
+			{
+				unsigned int webViewIndex;
+				m_panel->Children->IndexOf(_webView, &webViewIndex);
+				m_panel->Children->RemoveAt(webViewIndex);
+
+				_webView = nullptr;
+				m_currentURL = nullptr;
+			}
+
+		}
+		else
+		{
+			if (_webView == nullptr)
+			{
+				_webView = ref new WebView();
+				//_webView->IsScriptEnabled = true;
+			}
+
+			if (visible)
+			{
+				_webView->Visibility = Windows::UI::Xaml::Visibility::Visible;
+			}
+			else
+			{
+				_webView->Visibility = Windows::UI::Xaml::Visibility::Collapsed;
+				return;
+			}
+
+			_webView->Margin = Thickness(x, y, 0, 0);
+			_webView->Width = width;
+			_webView->Height = height;
+			_webView->HorizontalAlignment = Windows::UI::Xaml::HorizontalAlignment::Left;
+			_webView->VerticalAlignment = Windows::UI::Xaml::VerticalAlignment::Top;
+
+			if (_webView->Parent == nullptr)
+			{
+				m_panel->Children->Append(_webView);
+			}
+
+			if (url != nullptr && (m_currentURL == nullptr || !m_currentURL->Equals(url)))
+			{
+				try
+				{
+					_webView->Navigate(ref new Uri(url));
+					m_currentURL = url;
+				}
+				catch (...)
+				{
+					_webView->Visibility = Windows::UI::Xaml::Visibility::Collapsed;
+				};
+			}
+		}
+
+
+	}));
+}
+
 NS_CC_END

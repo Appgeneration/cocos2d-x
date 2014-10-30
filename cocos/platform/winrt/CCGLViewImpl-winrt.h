@@ -88,6 +88,8 @@ public:
 
     bool ShowMessageBox(Platform::String^ title, Platform::String^ message);
 
+	void UpdateWebViewState(Platform::String^ url, int x, int y, int width, int height, bool visible, bool destroy);
+
 	int Run();
 	void Render();
 
@@ -165,6 +167,9 @@ private:
     Platform::Agile<Windows::UI::Core::CoreDispatcher> m_dispatcher;
     Platform::Agile<Windows::UI::Xaml::Controls::Panel> m_panel;
     KeyBoardWinRT^ m_keyboard;
+
+	Windows::UI::Xaml::Controls::WebView^ _webView;
+	Platform::String^ m_currentURL;
 };
 
 NS_CC_END

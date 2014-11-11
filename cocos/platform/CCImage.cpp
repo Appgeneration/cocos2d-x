@@ -57,6 +57,10 @@ extern "C"
     {
         return strerror(errnum);
     }
+    void fputs$UNIX2003(const char * c, FILE * f)
+    {
+        fputs(c, f);
+    }
 #endif
 #endif
 #include "png.h"

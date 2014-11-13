@@ -693,6 +693,9 @@ void GLView::onGLFWWindowSizeFunCallback(GLFWwindow *window, int width, int heig
 {
     if (_resolutionPolicy != ResolutionPolicy::UNKNOWN)
     {
+        _screenSize.width= width;
+        _screenSize.height = height;
+        
         updateDesignResolutionSize();
         Director::getInstance()->setViewport();
     }

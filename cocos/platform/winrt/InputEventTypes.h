@@ -30,7 +30,7 @@ THE SOFTWARE.
 NS_CC_BEGIN
 
 
-public enum class Cocos2dEvent
+enum class Cocos2dEvent
 {
     ShowKeyboard,
     HideKeyboard,
@@ -38,7 +38,7 @@ public enum class Cocos2dEvent
 };
 
 
-public enum class Cocos2dKeyEvent : int 
+enum class Cocos2dKeyEvent : int 
 {
     Text,
     Escape,

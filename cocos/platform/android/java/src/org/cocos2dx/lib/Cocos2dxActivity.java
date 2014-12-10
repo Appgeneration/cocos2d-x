@@ -30,9 +30,12 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
+import android.graphics.PixelFormat;
+import android.opengl.GLSurfaceView;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Message;
+import android.view.View;
 import android.view.ViewGroup;
 import android.util.Log;
 import android.widget.FrameLayout;
@@ -158,10 +161,10 @@ public abstract class Cocos2dxActivity extends Activity implements Cocos2dxHelpe
 	public void init() {
 		
     	// FrameLayout
-        ViewGroup.LayoutParams framelayout_params =
-            new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
+        FrameLayout.LayoutParams framelayout_params =
+            new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
                                        ViewGroup.LayoutParams.MATCH_PARENT);
-        mFrameLayout = new FrameLayout(this);
+        mFrameLayout = onCreateFrameLayout();
         mFrameLayout.setLayoutParams(framelayout_params);
 
         // Cocos2dxEditText layout
@@ -173,6 +176,7 @@ public abstract class Cocos2dxActivity extends Activity implements Cocos2dxHelpe
 
         // ...add to FrameLayout
         mFrameLayout.addView(edittext);
+        //edittext.setVisibility(View.GONE);
 
         // Cocos2dxGLSurfaceView
         this.mGLSurfaceView = this.onCreateView();
@@ -181,14 +185,27 @@ public abstract class Cocos2dxActivity extends Activity implements Cocos2dxHelpe
         mFrameLayout.addView(this.mGLSurfaceView);
 
         // Switch to supported OpenGL (ARGB888) mode on emulator
-        if (isAndroidEmulator())
-           this.mGLSurfaceView.setEGLConfigChooser(8 , 8, 8, 8, 16, 0);
+        // if (isAndroidEmulator())
+        //  this.mGLSurfaceView.setEGLConfigChooser(8 , 8, 8, 8, 16, 0);
+          
+        this.mGLSurfaceView.setZOrderOnTop(true); 
+        this.mGLSurfaceView.setEGLConfigChooser(8 , 8, 8, 8, 16, 0);
+        this.mGLSurfaceView.getHolder().setFormat(PixelFormat.RGBA_8888);
 
         this.mGLSurfaceView.setCocos2dxRenderer(onCreateRenderer());
         this.mGLSurfaceView.setCocos2dxEditText(edittext);
+        this.mGLSurfaceView.setRenderMode(GLSurfaceView.RENDERMODE_WHEN_DIRTY);
 
         // Set framelayout as the content view
+		cocosInitFinished();
+	}
+
+	protected void cocosInitFinished() {
 		setContentView(mFrameLayout);
+	}
+
+	protected FrameLayout onCreateFrameLayout() {
+		return new FrameLayout(this);
 	}
 
 	/**

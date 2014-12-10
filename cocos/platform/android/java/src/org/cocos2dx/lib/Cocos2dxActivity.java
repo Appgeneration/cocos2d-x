@@ -176,7 +176,7 @@ public abstract class Cocos2dxActivity extends Activity implements Cocos2dxHelpe
 
         // ...add to FrameLayout
         mFrameLayout.addView(edittext);
-        //edittext.setVisibility(View.GONE);
+        edittext.setVisibility(View.GONE);
 
         // Cocos2dxGLSurfaceView
         this.mGLSurfaceView = this.onCreateView();

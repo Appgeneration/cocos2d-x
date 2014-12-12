@@ -100,8 +100,10 @@ Director* Director::getInstance()
     return s_SharedDirector;
 }
 
-Director::Director()
+Director::Director():
+_defaultClearColor(0.0f, 0.0f, 0.0f, 1.0f)
 {
+    KBR_COCOS_CHANGES
 }
 
 bool Director::init(void)
@@ -246,7 +248,8 @@ void Director::setGLDefaultValues()
     setProjection(_projection);
 
     // set other opengl default values
-    glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+    KBR_COCOS_CHANGES
+    glClearColor(_defaultClearColor.x, _defaultClearColor.y, _defaultClearColor.z, _defaultClearColor.w);
 }
 
 // Draw the Scene

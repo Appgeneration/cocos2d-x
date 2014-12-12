@@ -404,6 +404,9 @@ public:
      */
     float getFrameRate() const { return _frameRate; }
 
+    KBR_COCOS_CHANGES
+    Vec4 _defaultClearColor;
+    
 protected:
     void purgeDirector();
     bool _purgeDirectorInNextLoop; // this flag will be set to true in end()

@@ -406,6 +406,10 @@ public:
 
     KBR_COCOS_CHANGES
     Vec4 _defaultClearColor;
+    void setDefaultClearColor(Vec4&& newClearColor) {
+        _defaultClearColor = newClearColor;
+        glClearColor(_defaultClearColor.x, _defaultClearColor.y, _defaultClearColor.z, _defaultClearColor.w);
+    }
     
 protected:
     void purgeDirector();

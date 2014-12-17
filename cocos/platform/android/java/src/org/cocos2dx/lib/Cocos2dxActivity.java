@@ -187,10 +187,6 @@ public abstract class Cocos2dxActivity extends Activity implements Cocos2dxHelpe
         // Switch to supported OpenGL (ARGB888) mode on emulator
         // if (isAndroidEmulator())
         //  this.mGLSurfaceView.setEGLConfigChooser(8 , 8, 8, 8, 16, 0);
-          
-        this.mGLSurfaceView.setZOrderOnTop(true); 
-        this.mGLSurfaceView.setEGLConfigChooser(8 , 8, 8, 8, 16, 0);
-        this.mGLSurfaceView.getHolder().setFormat(PixelFormat.RGBA_8888);
 
         this.mGLSurfaceView.setCocos2dxRenderer(onCreateRenderer());
         this.mGLSurfaceView.setCocos2dxEditText(edittext);

@@ -49,7 +49,7 @@ public class Cocos2dxAccelerometer implements SensorEventListener {
 	private final Context mContext;
 	private final SensorManager mSensorManager;
 	private final Sensor mAccelerometer;
-	private final int mNaturalOrientation;
+	private int mNaturalOrientation;
 
 	// ===========================================================
 	// Constructors
@@ -137,6 +137,11 @@ public class Cocos2dxAccelerometer implements SensorEventListener {
 	// ===========================================================
     
 	public static native void onSensorChanged(final float pX, final float pY, final float pZ, final long pTimestamp);
+
+	// Change accelerometer reference orientation, since it is not being changed automatically when we request a different orientation for the device 
+	public void forceNaturalOrientation(int naturalOrientation) {
+		this.mNaturalOrientation = naturalOrientation;
+	}
 
 	// ===========================================================
 	// Inner and Anonymous Classes

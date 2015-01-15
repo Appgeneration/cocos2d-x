@@ -29,6 +29,7 @@ import java.io.FileInputStream;
 
 import android.content.Context;
 import android.content.res.AssetFileDescriptor;
+import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.util.Log;
 
@@ -90,9 +91,19 @@ public class Cocos2dxMusic {
     }
 
     public void playBackgroundMusic(final String pPath, final boolean isLoop) {
+    	
+    	boolean backgroundMediaPlayerCreated = false;
         if (this.mCurrentPath == null) {
+        	
+        	// release old resource and create a new one
+            if (this.mBackgroundMediaPlayer != null) {
+                this.mBackgroundMediaPlayer.release();
+            }
+        	
             // it is the first time to play background music or end() was called
             this.mBackgroundMediaPlayer = this.createMediaplayer(pPath);
+            backgroundMediaPlayerCreated = true;
+            
             this.mCurrentPath = pPath;
         } else {
             if (!this.mCurrentPath.equals(pPath)) {
@@ -103,6 +114,7 @@ public class Cocos2dxMusic {
                     this.mBackgroundMediaPlayer.release();
                 }
                 this.mBackgroundMediaPlayer = this.createMediaplayer(pPath);
+                backgroundMediaPlayerCreated = true;
 
                 // record the path
                 this.mCurrentPath = pPath;
@@ -117,7 +129,14 @@ public class Cocos2dxMusic {
                 if (mPaused) {
                     mBackgroundMediaPlayer.seekTo(0);
                     this.mBackgroundMediaPlayer.start();
-                } else if (mBackgroundMediaPlayer.isPlaying()) {
+                } else if (mBackgroundMediaPlayer.isPlaying() && !backgroundMediaPlayerCreated) 
+                	//Bug fix : We noticed sometimes that on kindle devices
+                	//that after creating the media player, calling isPlaying
+                	//returned true even though that made no sense
+                	//because it had been created right before
+                	//this call. This would result on a seekTo() without a
+                	//start() and we would hear no sound whatsoever
+                {
                     mBackgroundMediaPlayer.seekTo(0);
                 } else {
                     this.mBackgroundMediaPlayer.start();
@@ -258,7 +277,7 @@ public class Cocos2dxMusic {
                 final AssetFileDescriptor assetFileDescritor = this.mContext.getAssets().openFd(pPath);
                 mediaPlayer.setDataSource(assetFileDescritor.getFileDescriptor(), assetFileDescritor.getStartOffset(), assetFileDescritor.getLength());
             }
-
+            mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
             mediaPlayer.prepare();
 
             mediaPlayer.setVolume(this.mLeftVolume, this.mRightVolume);

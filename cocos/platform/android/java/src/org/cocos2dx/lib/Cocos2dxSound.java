@@ -84,7 +84,16 @@ public class Cocos2dxSound {
 	}
 
 	private void initData() {
-		if (Cocos2dxHelper.getDeviceModel().indexOf("GT-I9100") != -1) {
+		
+		/* Bug Fix : If we are running on an Amazon device, we create the sound pool in a different stream.
+		 * This is necessary in order to prevent problems with the background music. If we didn't do this
+		 * when we played a sound effect any current background music would be muffled forever.
+		 */
+		String manufacturer = android.os.Build.MANUFACTURER;
+		if(manufacturer.equalsIgnoreCase("Amazon")) {
+			this.mSoundPool = new SoundPool(Cocos2dxSound.MAX_SIMULTANEOUS_STREAMS_DEFAULT, AudioManager.STREAM_NOTIFICATION, Cocos2dxSound.SOUND_QUALITY);
+		}
+		else if (Cocos2dxHelper.getDeviceModel().indexOf("GT-I9100") != -1) {
 			this.mSoundPool = new SoundPool(Cocos2dxSound.MAX_SIMULTANEOUS_STREAMS_I9100, AudioManager.STREAM_MUSIC, Cocos2dxSound.SOUND_QUALITY);
 		}
 		else {

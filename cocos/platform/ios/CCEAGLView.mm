@@ -730,7 +730,16 @@ Copyright (C) 2008 Apple Inc. All Rights Reserved.
     
     switch ([[UIApplication sharedApplication] statusBarOrientation])
     {
-        case UIInterfaceOrientationPortrait:
+            KBR_COCOS_CHANGES
+            // (Note: there's another KBR_COCOS_CHANGES in this file
+            // that affects this portion.
+            // This was interfering with the TextBox/Keyboard intersection test.)
+        default:
+            begin.origin.y = viewSize.height - begin.origin.y - begin.size.height;
+            end.origin.y = viewSize.height - end.origin.y - end.size.height;
+            break;
+            
+        /*case UIInterfaceOrientationPortrait:
             begin.origin.y = viewSize.height - begin.origin.y - begin.size.height;
             end.origin.y = viewSize.height - end.origin.y - end.size.height;
             break;
@@ -779,7 +788,7 @@ Copyright (C) 2008 Apple Inc. All Rights Reserved.
             break;
             
         default:
-            break;
+            break;*/
     }
 
     auto glview = cocos2d::Director::getInstance()->getOpenGLView();
@@ -868,7 +877,16 @@ Copyright (C) 2008 Apple Inc. All Rights Reserved.
     
     switch ([[UIApplication sharedApplication] statusBarOrientation])
     {
-        case UIInterfaceOrientationPortrait:
+        KBR_COCOS_CHANGES
+            // (Note: there's another KBR_COCOS_CHANGES in this file
+            // that affects this portion.
+            // This was interfering with the TextBox/Keyboard intersection test.)
+            
+        default:
+            self.frame = CGRectMake(originalRect_.origin.x , originalRect_.origin.y - dis, originalRect_.size.width, originalRect_.size.height);
+            break;
+            
+        /*case UIInterfaceOrientationPortrait:
             self.frame = CGRectMake(originalRect_.origin.x, originalRect_.origin.y - dis, originalRect_.size.width, originalRect_.size.height);
             break;
             
@@ -885,7 +903,7 @@ Copyright (C) 2008 Apple Inc. All Rights Reserved.
             break;
             
         default:
-            break;
+            break;*/
     }
     
 	[UIView commitAnimations];

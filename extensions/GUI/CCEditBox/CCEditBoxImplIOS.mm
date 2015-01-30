@@ -36,17 +36,22 @@
 static const int CC_EDIT_BOX_PADDING = 5;
 
 @implementation CCCustomUITextField
-- (CGRect)textRectForBounds:(CGRect)bounds
+KBR_COCOS_CHANGES
+/*- (CGRect)textRectForBounds:(CGRect)bounds
 {
     auto glview = cocos2d::Director::getInstance()->getOpenGLView();
 
     float padding = CC_EDIT_BOX_PADDING * glview->getScaleX() / glview->getContentScaleFactor();
-    return CGRectMake(bounds.origin.x + padding, bounds.origin.y + padding,
+    CGRect test =  CGRectMake(bounds.origin.x + padding, bounds.origin.y + padding,
                       bounds.size.width - padding*2, bounds.size.height - padding*2);
+    
+    NSLog(@"%@", NSStringFromCGRect(test));
+    
+    return test;
 }
 - (CGRect)editingRectForBounds:(CGRect)bounds {
     return [self textRectForBounds:bounds];
-}
+}*/
 @end
 
 

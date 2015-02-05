@@ -120,7 +120,10 @@
 
 -(void) setContentSize:(NSSize) size
 {
-    
+    CGRect frame = [textField_ frame];
+    frame.size = size;
+    [textField_ setFrame:frame];
+    [secureTextField_ setFrame:frame];
 }
 
 -(void) visit
@@ -150,10 +153,10 @@
     }
 }
 
-- (BOOL)textFieldShouldReturn:(NSTextField *)sender
-{
-    if (sender == textField_ || sender == secureTextField_) {
-        [sender resignFirstResponder];
+- (BOOL)control:(NSControl *)control textShouldEndEditing:(NSText *)fieldEditor {
+    if (control == textField_ || control == secureTextField_) {
+        [control resignFirstResponder];
+        return [self textFieldShouldEndEditing:(NSTextField*)control];
     }
     return NO;
 }

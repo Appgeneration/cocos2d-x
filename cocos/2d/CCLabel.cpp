@@ -272,8 +272,10 @@ Label::Label(FontAtlas *atlas /* = nullptr */, TextHAlignment hAlignment /* = Te
             Node::removeAllChildrenWithCleanup(true);
             _batchNodes.clear();
             _batchNodes.push_back(this);
-
-            alignText();
+            
+            KBR_COCOS_CHANGES //update font is required to refresh the textures after the renderer is recreated on Android
+            updateFont();
+            setTTFConfig(getTTFConfig()); //reset ttf config
         }
     });
     _eventDispatcher->addEventListenerWithSceneGraphPriority(purgeTextureListener, this);

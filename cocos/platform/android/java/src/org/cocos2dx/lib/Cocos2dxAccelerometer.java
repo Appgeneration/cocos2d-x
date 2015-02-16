@@ -108,11 +108,17 @@ public class Cocos2dxAccelerometer implements SensorEventListener {
 		 */
 		final int orientation = this.mContext.getResources().getConfiguration().orientation;
 
-		if ((orientation == Configuration.ORIENTATION_LANDSCAPE) && (this.mNaturalOrientation != Surface.ROTATION_0)) {
+		
+		if ((orientation == Configuration.ORIENTATION_LANDSCAPE) && (this.mNaturalOrientation == Surface.ROTATION_90)) {
 			final float tmp = x;
 			x = -y;
 			y = tmp;
-		} else if ((orientation == Configuration.ORIENTATION_PORTRAIT) && (this.mNaturalOrientation != Surface.ROTATION_0)) {
+		}
+		else if ((orientation == Configuration.ORIENTATION_LANDSCAPE) && (this.mNaturalOrientation == Surface.ROTATION_270)) {
+			final float tmp = x;
+			x = y;
+			y = -tmp;
+		}else if ((orientation == Configuration.ORIENTATION_PORTRAIT) && (this.mNaturalOrientation != Surface.ROTATION_0)) {
 			final float tmp = x;
 			x = y;
 			y = -tmp;

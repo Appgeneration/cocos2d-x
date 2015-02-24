@@ -112,7 +112,13 @@ bool GLView::isOpenGLReady()
 
 void GLView::end()
 {
-    terminateProcessJNI();
+	/*	Don't force the termination of the process.
+		Let the containing activity decide what it wants to do.
+		Most probably you will want to handle the back key press
+		and do something plausible when it happens.
+		We terminate all cocos stack and finish the activity.
+		 */
+    //terminateProcessJNI();
 }
 
 void GLView::swapBuffers()

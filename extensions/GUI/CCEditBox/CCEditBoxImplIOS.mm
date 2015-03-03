@@ -610,6 +610,11 @@ void EditBoxImplIOS::setAnchorPoint(const Vec2& anchorPoint)
 	setPosition(_position);
 }
 
+void EditBoxImplIOS::setEnabled(bool enabled)
+{
+    // Already handled by existing code
+}
+
 void EditBoxImplIOS::visit(void)
 {
 }

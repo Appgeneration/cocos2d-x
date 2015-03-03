@@ -235,6 +235,12 @@ void EditBoxImplAndroid::setAnchorPoint(const Vec2& anchorPoint)
 	
 }
 
+void EditBoxImplAndroid::setEnabled(bool enabled)
+{
+	KBR_COCOS_CHANGES
+	// Already implemented by existing code
+}
+
 void EditBoxImplAndroid::visit(void)
 { // don't need to be implemented on android platform.
     

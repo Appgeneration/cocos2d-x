@@ -318,6 +318,16 @@ void EditBox::setAnchorPoint(const Vec2& anchorPoint)
     }
 }
 
+void EditBox::setEnabled(bool enabled)
+{
+    KBR_COCOS_CHANGES
+    ControlButton::setEnabled(enabled);
+    if (_editBoxImpl != nullptr)
+    {
+        _editBoxImpl->setEnabled(enabled);
+    }
+}
+
 void EditBox::visit(Renderer *renderer, const Mat4 &parentTransform, uint32_t parentFlags)
 {
     ControlButton::visit(renderer, parentTransform, parentFlags);

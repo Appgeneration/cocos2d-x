@@ -375,6 +375,7 @@ public:
     virtual void setVisible(bool visible) override;
     virtual void setContentSize(const Size& size) override;
 	virtual void setAnchorPoint(const Vec2& anchorPoint) override;
+    virtual void setEnabled(bool enabled) override;
     /**
      * @js NA
      * @lua NA

@@ -102,6 +102,7 @@ public:
     virtual void setContentSize(const Size& size);
 	virtual void setAnchorPoint(const Vec2& anchorPoint);
     virtual void updatePosition(float dt) override;
+    virtual void setEnabled(bool enabled);
     /**
      * @js NA
      * @lua NA

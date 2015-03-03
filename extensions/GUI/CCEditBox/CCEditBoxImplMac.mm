@@ -495,6 +495,15 @@ void EditBoxImplMac::setAnchorPoint(const Vec2& anchorPoint)
 	setPosition(_position);
 }
 
+void EditBoxImplMac::setEnabled(bool enabled)
+{
+    KBR_COCOS_CHANGES
+    [_sysEdit.textField setEditable:enabled];
+    [_sysEdit.secureTextField setEditable:enabled];
+    //[_sysEdit.textField setEnabled:enabled];
+    //[_sysEdit.secureTextField setEnabled:enabled];
+}
+
 void EditBoxImplMac::visit(void)
 {
     

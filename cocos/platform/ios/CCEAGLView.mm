@@ -179,20 +179,25 @@ Copyright (C) 2008 Apple Inc. All Rights Reserved.
 
 - (void)didMoveToWindow;
 {
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(onUIKeyboardNotification:)
-                                                 name:UIKeyboardWillShowNotification object:nil];
-    
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(onUIKeyboardNotification:)
-                                                 name:UIKeyboardDidShowNotification object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(onUIKeyboardNotification:)
-                                                 name:UIKeyboardWillHideNotification object:nil];
-    
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(onUIKeyboardNotification:)
-                                                 name:UIKeyboardDidHideNotification object:nil];
+    if (self.window) {
+        [[NSNotificationCenter defaultCenter] addObserver:self
+                                                 selector:@selector(onUIKeyboardNotification:)
+                                                     name:UIKeyboardWillShowNotification object:nil];
+        
+        [[NSNotificationCenter defaultCenter] addObserver:self
+                                                 selector:@selector(onUIKeyboardNotification:)
+                                                     name:UIKeyboardDidShowNotification object:nil];
+        [[NSNotificationCenter defaultCenter] addObserver:self
+                                                 selector:@selector(onUIKeyboardNotification:)
+                                                     name:UIKeyboardWillHideNotification object:nil];
+        
+        [[NSNotificationCenter defaultCenter] addObserver:self
+                                                 selector:@selector(onUIKeyboardNotification:)
+                                                     name:UIKeyboardDidHideNotification object:nil];
+    }
+    else {
+        [[NSNotificationCenter defaultCenter] removeObserver:self];
+    }
 }
 
 -(int) getWidth
@@ -792,6 +797,9 @@ Copyright (C) 2008 Apple Inc. All Rights Reserved.
     }
 
     auto glview = cocos2d::Director::getInstance()->getOpenGLView();
+    if(glview == nullptr) {
+        return;
+    }
     float scaleX = glview->getScaleX();
 	float scaleY = glview->getScaleY();
     

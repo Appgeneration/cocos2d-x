@@ -309,9 +309,14 @@ bool EditBoxImplMac::initWithSize(const Size& size)
 
 void EditBoxImplMac::setFont(const char* pFontName, int fontSize)
 {
+    KBR_COCOS_CHANGES
+    // fontSize bug fix: temporary fix until we can figure out
+    // what the hell is going on with wrong fontSizes on Portrait.
+    
 	NSString * fntName = [NSString stringWithUTF8String:pFontName];
-	NSFont *textFont = [NSFont fontWithName:fntName size:fontSize];
-	if (textFont != nil) {
+	//NSFont *textFont = [NSFont fontWithName:fntName size:fontSize];
+    NSFont *textFont = [NSFont fontWithName:fntName size:_sysEdit.textField.frame.size.height*2/3];
+    if (textFont != nil) {
 		[_sysEdit.textField setFont:textFont];
         [_sysEdit.secureTextField setFont:textFont];
     }

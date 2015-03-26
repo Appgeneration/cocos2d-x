@@ -73,6 +73,30 @@ public class Cocos2dxTypefaces {
 		return Cocos2dxTypefaces.sTypefaceCache.get(pAssetName);
 	}
 
+	// KBR_COCOS_CHANGES
+	public static synchronized void preloadFromFile(final Context pContext,
+			final String pFilePath, final String pFontName) 
+	{
+		if ( !Cocos2dxTypefaces.sTypefaceCache.containsKey(pFontName) )
+		{
+			boolean isAbsolutePath = (pFilePath.charAt(0) == '/');
+			
+			try
+			{
+				final Typeface typeface = (isAbsolutePath ?
+						Typeface.createFromFile(pFilePath) :
+							Typeface.createFromAsset(pContext.getAssets(), pFilePath));
+					
+				Cocos2dxTypefaces.sTypefaceCache.put(pFontName, typeface);
+			} 
+			catch (Exception e) 
+			{
+				android.util.Log.e("Cocos2dxTypefaces", "(Kids) Could not get typeface '" + pFilePath
+                    + "' because " + e.getMessage());
+			}	
+		}
+	}
+	
 	// ===========================================================
 	// Inner and Anonymous Classes
 	// ===========================================================

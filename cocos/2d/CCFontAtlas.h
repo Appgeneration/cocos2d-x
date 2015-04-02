@@ -60,7 +60,8 @@ class CC_DLL FontAtlas : public Ref
 public:
     static const int CacheTextureWidth;
     static const int CacheTextureHeight;
-    static const char* EVENT_PURGE_TEXTURES;
+    static const char* CMD_PURGE_FONTATLAS;
+    static const char* CMD_RESET_FONTATLAS;
     /**
      * @js ctor
      */
@@ -126,7 +127,6 @@ private:
     int _fontAscender;
     EventListenerCustom* _rendererRecreatedListener;
     bool _antialiasEnabled;
-    bool _rendererRecreate;
 };
 
 

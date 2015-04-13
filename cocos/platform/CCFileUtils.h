@@ -321,6 +321,9 @@ public:
      *  @note This method is used internally.
      */
     virtual bool writeToFile(ValueMap& dict, const std::string& fullPath);
+
+    KBR_COCOS_CHANGES
+    virtual bool writeToFile(ValueVector& vect, const std::string& fullPath);
     
     /**
      *  Converts the contents of a file to a ValueVector.

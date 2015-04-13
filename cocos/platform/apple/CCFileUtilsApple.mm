@@ -453,5 +453,22 @@ ValueVector FileUtilsApple::getValueVectorFromFile(const std::string& filename)
     return ret;
 }
 
+bool FileUtilsApple::writeToFile(ValueVector& vect, const std::string &fullPath)
+{
+    //CCLOG("iOS||Mac Array %d write to file %s", dict->_ID, fullPath.c_str());
+    NSMutableArray *nsVect = [NSMutableArray array];
+    
+    for (auto iter = vect.begin(); iter != vect.end(); ++iter)
+    {
+        addObjectToNSArray(*iter, nsVect);
+    }
+    
+    NSString *file = [NSString stringWithUTF8String:fullPath.c_str()];
+    // do it atomically
+    [nsVect writeToFile:file atomically:YES];
+    
+    return true;
+}
+
 NS_CC_END
 

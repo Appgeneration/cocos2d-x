@@ -375,6 +375,48 @@ bool FileUtils::writeToFile(ValueMap& dict, const std::string &fullPath)
     return ret;
 }
 
+KBR_COCOS_CHANGES
+bool FileUtils::writeToFile(ValueVector& vect, const std::string &fullPath)
+{
+    //CCLOG("tinyxml2 Dictionary %d writeToFile %s", dict->_ID, fullPath.c_str());
+    tinyxml2::XMLDocument *doc = new tinyxml2::XMLDocument();
+    if (nullptr == doc)
+        return false;
+    
+    tinyxml2::XMLDeclaration *declaration = doc->NewDeclaration("xml version=\"1.0\" encoding=\"UTF-8\"");
+    if (nullptr == declaration)
+    {
+        delete doc;
+        return false;
+    }
+    
+    doc->LinkEndChild(declaration);
+    tinyxml2::XMLElement *docType = doc->NewElement("!DOCTYPE plist PUBLIC \"-//Apple//DTD PLIST 1.0//EN\" \"http://www.apple.com/DTDs/PropertyList-1.0.dtd\"");
+    doc->LinkEndChild(docType);
+    
+    tinyxml2::XMLElement *rootEle = doc->NewElement("plist");
+    rootEle->SetAttribute("version", "1.0");
+    if (nullptr == rootEle)
+    {
+        delete doc;
+        return false;
+    }
+    doc->LinkEndChild(rootEle);
+    
+    tinyxml2::XMLElement *innerDict = generateElementForArray(vect, doc);
+    if (nullptr == innerDict )
+    {
+        delete doc;
+        return false;
+    }
+    rootEle->LinkEndChild(innerDict);
+    
+    bool ret = tinyxml2::XML_SUCCESS == doc->SaveFile(fullPath.c_str());
+    
+    delete doc;
+    return ret;
+}
+
 /*
  * Generate tinyxml2::XMLElement for Object through a tinyxml2::XMLDocument
  */
@@ -470,6 +512,9 @@ NS_CC_BEGIN
 ValueMap FileUtils::getValueMapFromFile(const std::string& filename) {return ValueMap();}
 ValueVector FileUtils::getValueVectorFromFile(const std::string& filename) {return ValueVector();}
 bool FileUtils::writeToFile(ValueMap& dict, const std::string &fullPath) {return false;}
+
+KBR_COCOS_CHANGES
+bool FileUtils::writeToFile(ValueVector &vect, const std::string &fullPath) { return false; }
 
 #endif /* (CC_TARGET_PLATFORM != CC_PLATFORM_IOS) && (CC_TARGET_PLATFORM != CC_PLATFORM_MAC) */
 

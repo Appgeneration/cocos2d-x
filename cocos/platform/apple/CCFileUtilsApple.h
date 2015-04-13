@@ -51,6 +51,8 @@ public:
     virtual bool writeToFile(ValueMap& dict, const std::string& fullPath) override;
     
     virtual ValueVector getValueVectorFromFile(const std::string& filename) override;
+    KBR_COCOS_CHANGES
+    virtual bool writeToFile(ValueVector& vect, const std::string& fullPath) override;
 private:
     virtual bool isFileExistInternal(const std::string& filePath) const override;
 };

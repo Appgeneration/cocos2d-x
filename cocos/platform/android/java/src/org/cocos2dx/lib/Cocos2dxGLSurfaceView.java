@@ -54,7 +54,7 @@ public class Cocos2dxGLSurfaceView extends GLSurfaceView {
 	private static Cocos2dxTextInputWraper sCocos2dxTextInputWraper;
 
 	private Cocos2dxRenderer mCocos2dxRenderer;
-	private Cocos2dxEditText mCocos2dxEditText;
+	protected Cocos2dxEditText mCocos2dxEditText;
 
 	// ===========================================================
 	// Constructors

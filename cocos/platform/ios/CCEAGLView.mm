@@ -889,7 +889,9 @@ Copyright (C) 2008 Apple Inc. All Rights Reserved.
             // (Note: there's another KBR_COCOS_CHANGES in this file
             // that affects this portion.
             // This was interfering with the TextBox/Keyboard intersection test.)
-            
+        case UIInterfaceOrientationPortrait:
+            self.frame = CGRectMake(originalRect_.origin.x, originalRect_.origin.y - dis, originalRect_.size.height, originalRect_.size.width);
+            break;
         default:
             self.frame = CGRectMake(originalRect_.origin.x , originalRect_.origin.y - dis, originalRect_.size.width, originalRect_.size.height);
             break;

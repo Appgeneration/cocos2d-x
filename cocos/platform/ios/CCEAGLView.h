@@ -102,7 +102,6 @@ Copyright (C) 2008 Apple Inc. All Rights Reserved.
     CGRect                  originalRect_;
     NSNotification*         keyboardShowNotification_;
     BOOL                    isKeyboardShown_;
-    BOOL                    resizeGuard;
 }
 
 @property(nonatomic, readonly) UITextPosition *beginningOfDocument;

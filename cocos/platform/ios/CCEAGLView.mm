@@ -137,7 +137,6 @@ Copyright (C) 2008 Apple Inc. All Rights Reserved.
         requestedSamples_ = nSamples;
         preserveBackbuffer_ = retained;
         markedText_ = nil;
-        resizeGuard = NO;
         if( ! [self setupSurfaceWithSharegroup:sharegroup] ) {
             [self release];
             return nil;
@@ -257,10 +256,6 @@ Copyright (C) 2008 Apple Inc. All Rights Reserved.
 
 - (void) layoutSubviews
 {
-    if (resizeGuard) return;
-    
-    resizeGuard = YES;
-    
     [renderer_ resizeFromLayer:(CAEAGLLayer*)self.layer];
     size_ = [renderer_ backingSize];
 

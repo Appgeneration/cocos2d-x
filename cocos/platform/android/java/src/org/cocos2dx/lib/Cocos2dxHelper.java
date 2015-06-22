@@ -170,8 +170,8 @@ public class Cocos2dxHelper {
 	}
 	
 	// Change accelerometer reference orientation, since it is not being changed automatically when we request a different orientation for the device 
-	public static void forceAccelerometerNaturalOrientation(int naturalOrientation) {
-		Cocos2dxHelper.sCocos2dxAccelerometer.forceNaturalOrientation(naturalOrientation);
+	public static void recalcAccelerometerNaturalOrientation() {
+		Cocos2dxHelper.sCocos2dxAccelerometer.recalcNaturalOrientation();
 	}
 
 	public static void preloadBackgroundMusic(final String pPath) {

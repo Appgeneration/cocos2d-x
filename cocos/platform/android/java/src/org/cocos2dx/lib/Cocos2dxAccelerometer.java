@@ -62,7 +62,7 @@ public class Cocos2dxAccelerometer implements SensorEventListener {
 		this.mAccelerometer = this.mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
 
 		final Display display = ((WindowManager) this.mContext.getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay();
-		this.mNaturalOrientation = display.getOrientation();
+		this.mNaturalOrientation = display.getRotation();
 	}
 
 	// ===========================================================
@@ -144,9 +144,10 @@ public class Cocos2dxAccelerometer implements SensorEventListener {
     
 	public static native void onSensorChanged(final float pX, final float pY, final float pZ, final long pTimestamp);
 
-	// Change accelerometer reference orientation, since it is not being changed automatically when we request a different orientation for the device 
-	public void forceNaturalOrientation(int naturalOrientation) {
-		this.mNaturalOrientation = naturalOrientation;
+	// Recalculate natural orientation; this is needed every time there is a forced device rotation
+	public void recalcNaturalOrientation() {
+		final Display display = ((WindowManager) this.mContext.getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay();
+		this.mNaturalOrientation = display.getRotation();
 	}
 
 	// ===========================================================

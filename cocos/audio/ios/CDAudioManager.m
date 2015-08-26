@@ -451,8 +451,12 @@ static BOOL configured = FALSE;
     [self stopBackgroundMusic];
     [soundEngine release];
     [[NSNotificationCenter defaultCenter] removeObserver:self];
+    
 //    KBR_COCOS_CHANGES
 //    [self audioSessionSetActive:NO];
+    AVAudioSession* session = [AVAudioSession sharedInstance];
+    session.delegate = nil;
+    
     [audioSourceChannels release];
     [super dealloc];
 }    

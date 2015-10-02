@@ -485,12 +485,17 @@ Image* RenderTexture::newImage(bool fliimage)
 
     do
     {
-        CC_BREAK_IF(! (buffer = new GLubyte[savedBufferWidth * savedBufferHeight * 4]));
+        if (fliimage) {
+            CC_BREAK_IF(! (buffer = new GLubyte[savedBufferWidth * savedBufferHeight * 4]));
+        }
 
         if(! (tempData = new GLubyte[savedBufferWidth * savedBufferHeight * 4]))
         {
-            delete[] buffer;
-            buffer = nullptr;
+            if (fliimage) {
+                delete[] buffer;
+                buffer = nullptr;
+            }
+            
             break;
         }
 

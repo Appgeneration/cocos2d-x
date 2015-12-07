@@ -18,6 +18,7 @@
 
 #include <Box2D/Common/b2StackAllocator.h>
 #include <Box2D/Common/b2Math.h>
+using namespace cocos2d;
 
 b2StackAllocator::b2StackAllocator()
 {

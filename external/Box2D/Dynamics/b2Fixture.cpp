@@ -26,6 +26,7 @@
 #include <Box2D/Collision/b2BroadPhase.h>
 #include <Box2D/Collision/b2Collision.h>
 #include <Box2D/Common/b2BlockAllocator.h>
+using namespace cocos2d;
 
 b2Fixture::b2Fixture()
 {

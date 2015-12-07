@@ -126,7 +126,7 @@ typedef double float64;
 #define b2_angularSleepTolerance	(2.0f / 180.0f * b2_pi)
 
 // Memory Allocation
-
+namespace cocos2d{
 /// Implement this function to use your own memory allocator.
 void* b2Alloc(int32 size);
 
@@ -147,5 +147,5 @@ struct b2Version
 
 /// Current version.
 extern b2Version b2_version;
-
+}
 #endif

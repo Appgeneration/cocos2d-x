@@ -40,6 +40,7 @@
 // Cdot = dot(v + cross(w, r), ug)
 // J = [ug cross(r, ug)]
 // K = J * invM * JT = invMass + invI * cross(r, ug)^2
+using namespace cocos2d;
 
 b2GearJoint::b2GearJoint(const b2GearJointDef* def)
 : b2Joint(def)

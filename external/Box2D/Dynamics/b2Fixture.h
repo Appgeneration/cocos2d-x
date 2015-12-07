@@ -22,7 +22,7 @@
 #include <Box2D/Dynamics/b2Body.h>
 #include <Box2D/Collision/b2Collision.h>
 #include <Box2D/Collision/Shapes/b2Shape.h>
-
+namespace cocos2d{
 class b2BlockAllocator;
 class b2Body;
 class b2BroadPhase;
@@ -341,5 +341,5 @@ inline const b2AABB& b2Fixture::GetAABB(int32 childIndex) const
 	b2Assert(0 <= childIndex && childIndex < m_proxyCount);
 	return m_proxies[childIndex].aabb;
 }
-
+}
 #endif

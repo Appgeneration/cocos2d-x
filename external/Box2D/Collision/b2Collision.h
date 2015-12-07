@@ -25,7 +25,7 @@
 /// @file
 /// Structures and functions used for computing contact points, distance
 /// queries, and TOI queries.
-
+namespace cocos2d{
 class b2Shape;
 class b2CircleShape;
 class b2EdgeShape;
@@ -273,5 +273,5 @@ inline bool b2TestOverlap(const b2AABB& a, const b2AABB& b)
 
 	return true;
 }
-
+}
 #endif

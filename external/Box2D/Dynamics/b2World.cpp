@@ -33,6 +33,7 @@
 #include <Box2D/Common/b2Draw.h>
 #include <Box2D/Common/b2Timer.h>
 #include <new>
+using namespace cocos2d;
 
 b2World::b2World(const b2Vec2& gravity)
 {

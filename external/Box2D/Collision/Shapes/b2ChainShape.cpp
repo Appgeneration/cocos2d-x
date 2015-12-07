@@ -21,6 +21,7 @@
 #include <new>
 #include <memory.h>
 #include <string.h>
+using namespace cocos2d;
 
 b2ChainShape::~b2ChainShape()
 {

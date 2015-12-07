@@ -22,7 +22,7 @@
 #include <Box2D/Common/b2Math.h>
 #include <Box2D/Collision/Shapes/b2Shape.h>
 #include <memory>
-
+namespace cocos2d{
 class b2Fixture;
 class b2Joint;
 class b2Contact;
@@ -856,5 +856,5 @@ inline const b2World* b2Body::GetWorld() const
 {
 	return m_world;
 }
-
+}
 #endif

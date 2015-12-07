@@ -31,6 +31,7 @@
 // J = -[u1 cross(r1, u1) ratio * u2  ratio * cross(r2, u2)]
 // K = J * invM * JT
 //   = invMass1 + invI1 * cross(r1, u1)^2 + ratio^2 * (invMass2 + invI2 * cross(r2, u2)^2)
+using namespace cocos2d;
 
 void b2PulleyJointDef::Initialize(b2Body* bA, b2Body* bB,
 				const b2Vec2& groundA, const b2Vec2& groundB,

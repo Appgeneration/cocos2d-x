@@ -23,7 +23,7 @@
 #include <Box2D/Common/b2GrowableStack.h>
 
 #define b2_nullNode (-1)
-
+namespace cocos2d{
 /// A node in the dynamic tree. The client does not interact with this directly.
 struct b2TreeNode
 {
@@ -285,5 +285,5 @@ inline void b2DynamicTree::RayCast(T* callback, const b2RayCastInput& input) con
 		}
 	}
 }
-
+}
 #endif

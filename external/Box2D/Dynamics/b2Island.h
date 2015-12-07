@@ -22,7 +22,7 @@
 #include <Box2D/Common/b2Math.h>
 #include <Box2D/Dynamics/b2Body.h>
 #include <Box2D/Dynamics/b2TimeStep.h>
-
+namespace cocos2d{
 class b2Contact;
 class b2Joint;
 class b2StackAllocator;
@@ -89,5 +89,5 @@ public:
 	int32 m_contactCapacity;
 	int32 m_jointCapacity;
 };
-
+}
 #endif

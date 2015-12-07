@@ -33,6 +33,7 @@
 #include <Box2D/Common/b2BlockAllocator.h>
 
 #include <new>
+using namespace cocos2d;
 
 b2Joint* b2Joint::Create(const b2JointDef* def, b2BlockAllocator* allocator)
 {

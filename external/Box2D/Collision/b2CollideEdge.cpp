@@ -20,11 +20,12 @@
 #include <Box2D/Collision/Shapes/b2CircleShape.h>
 #include <Box2D/Collision/Shapes/b2EdgeShape.h>
 #include <Box2D/Collision/Shapes/b2PolygonShape.h>
+using namespace cocos2d;
 
 
 // Compute contact points for edge versus circle.
 // This accounts for edge connectivity.
-void b2CollideEdgeAndCircle(b2Manifold* manifold,
+void cocos2d::b2CollideEdgeAndCircle(b2Manifold* manifold,
 							const b2EdgeShape* edgeA, const b2Transform& xfA,
 							const b2CircleShape* circleB, const b2Transform& xfB)
 {
@@ -151,6 +152,8 @@ void b2CollideEdgeAndCircle(b2Manifold* manifold,
 	manifold->points[0].localPoint = circleB->m_p;
 }
 
+namespace cocos2d {
+
 // This structure is used to keep track of the best separating axis.
 struct b2EPAxis
 {
@@ -217,6 +220,7 @@ struct b2EPCollider
 	float32 m_radius;
 	bool m_front;
 };
+}
 
 // Algorithm:
 // 1. Classify v1 and v2
@@ -689,7 +693,7 @@ b2EPAxis b2EPCollider::ComputePolygonSeparation()
 	return axis;
 }
 
-void b2CollideEdgeAndPolygon(	b2Manifold* manifold,
+void cocos2d::b2CollideEdgeAndPolygon(	b2Manifold* manifold,
 							 const b2EdgeShape* edgeA, const b2Transform& xfA,
 							 const b2PolygonShape* polygonB, const b2Transform& xfB)
 {

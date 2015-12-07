@@ -35,6 +35,7 @@
 // Motor rotational constraint
 // Cdot = wB - wA
 // J = [0 0 -1 0 0 1]
+using namespace cocos2d;
 
 void b2WheelJointDef::Initialize(b2Body* bA, b2Body* bB, const b2Vec2& anchor, const b2Vec2& axis)
 {

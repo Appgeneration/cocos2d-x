@@ -34,6 +34,7 @@
 // J = [-u -cross(r1, u) u cross(r2, u)]
 // K = J * invM * JT
 //   = invMass1 + invI1 * cross(r1, u)^2 + invMass2 + invI2 * cross(r2, u)^2
+using namespace cocos2d;
 
 void b2DistanceJointDef::Initialize(b2Body* b1, b2Body* b2,
 									const b2Vec2& anchor1, const b2Vec2& anchor2)

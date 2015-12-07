@@ -18,6 +18,7 @@
 
 #include <Box2D/Rope/b2Rope.h>
 #include <Box2D/Common/b2Draw.h>
+using namespace cocos2d;
 
 b2Rope::b2Rope()
 {

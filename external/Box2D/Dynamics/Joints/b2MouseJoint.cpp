@@ -27,6 +27,7 @@
 // J = [I r_skew]
 // Identity used:
 // w k % (rx i + ry j) = w * (-ry i + rx j)
+using namespace cocos2d;
 
 b2MouseJoint::b2MouseJoint(const b2MouseJointDef* def)
 : b2Joint(def)

@@ -20,7 +20,7 @@
 #define B2_JOINT_H
 
 #include <Box2D/Common/b2Math.h>
-
+namespace cocos2d{
 class b2Body;
 class b2Joint;
 struct b2SolverData;
@@ -222,5 +222,5 @@ inline bool b2Joint::GetCollideConnected() const
 {
 	return m_collideConnected;
 }
-
+}
 #endif

@@ -23,7 +23,7 @@
 #include <Box2D/Collision/b2Collision.h>
 #include <Box2D/Collision/Shapes/b2Shape.h>
 #include <Box2D/Dynamics/b2Fixture.h>
-
+namespace cocos2d{
 class b2Body;
 class b2Contact;
 class b2Fixture;
@@ -345,5 +345,5 @@ inline float32 b2Contact::GetTangentSpeed() const
 {
 	return m_tangentSpeed;
 }
-
+}
 #endif

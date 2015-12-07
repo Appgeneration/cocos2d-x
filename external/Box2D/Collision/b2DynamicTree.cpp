@@ -19,6 +19,7 @@
 #include <Box2D/Collision/b2DynamicTree.h>
 #include <memory.h>
 #include <string.h>
+using namespace cocos2d;
 
 b2DynamicTree::b2DynamicTree()
 {

@@ -40,6 +40,111 @@ FT_Library FontFreeType::_FTlibrary;
 bool       FontFreeType::_FTInitialized = false;
 const int  FontFreeType::DistanceMapSpread = 3;
 
+/** UNITY LINKING HACKS - BEGIN **/
+#if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
+extern "C" {
+    FT_EXPORT( FT_Error )UNITY_FT_Glyph_StrokeBorder( FT_Glyph    *pglyph,
+                                                     FT_Stroker   stroker,
+                                                     FT_Bool      inside,
+                                                     FT_Bool      destroy );
+    FT_EXPORT( void )
+    UNITY_FT_Glyph_Get_CBox( FT_Glyph  glyph,
+                      FT_UInt   bbox_mode,
+                      FT_BBox  *acbox );
+    
+    FT_EXPORT( void )
+    UNITY_FT_Done_Glyph( FT_Glyph  glyph );
+    
+    FT_EXPORT( FT_Error )
+    UNITY_FT_Load_Glyph( FT_Face   face,
+                  FT_UInt   glyph_index,
+                  FT_Int32  load_flags );
+    FT_EXPORT( FT_Error )
+    UNITY_FT_Init_FreeType( FT_Library  *alibrary );
+    
+    FT_EXPORT( void )
+    UNITY_FT_Stroker_Done( FT_Stroker  stroker );
+    
+    FT_EXPORT( FT_UInt )
+    UNITY_FT_Get_Char_Index( FT_Face   face,
+                      FT_ULong  charcode );
+    FT_EXPORT( void )
+    UNITY_FT_Stroker_Set( FT_Stroker           stroker,
+                   FT_Fixed             radius,
+                   FT_Stroker_LineCap   line_cap,
+                   FT_Stroker_LineJoin  line_join,
+                   FT_Fixed             miter_limit );
+    
+    FT_EXPORT( FT_Error )
+    UNITY_FT_Select_Charmap( FT_Face      face,
+                      FT_Encoding  encoding );
+    
+    FT_EXPORT( FT_Error )
+    UNITY_FT_Outline_Render( FT_Library         library,
+                      FT_Outline*        outline,
+                      FT_Raster_Params*  params );
+    FT_EXPORT( FT_Error )
+    UNITY_FT_Set_Char_Size( FT_Face     face,
+                     FT_F26Dot6  char_width,
+                     FT_F26Dot6  char_height,
+                     FT_UInt     horz_resolution,
+                     FT_UInt     vert_resolution );
+    
+    FT_EXPORT( FT_Error )
+    UNITY_FT_Done_FreeType( FT_Library  library );
+    
+    FT_EXPORT( FT_Error )
+    UNITY_FT_Done_Face( FT_Face  face );
+    
+    FT_EXPORT( FT_Error )
+    UNITY_FT_Stroker_New( FT_Library   library,
+                   FT_Stroker  *astroker );
+    
+    FT_EXPORT( FT_Error )
+    UNITY_FT_New_Memory_Face( FT_Library      library,
+                       const FT_Byte*  file_base,
+                       FT_Long         file_size,
+                       FT_Long         face_index,
+                       FT_Face        *aface );
+    
+    FT_EXPORT( FT_Error )
+    UNITY_FT_Get_Glyph( FT_GlyphSlot  slot,
+                 FT_Glyph     *aglyph );
+    
+    FT_EXPORT( void )
+    UNITY_FT_Outline_Translate( const FT_Outline*  outline,
+                         FT_Pos             xOffset,
+                         FT_Pos             yOffset );
+    
+    FT_EXPORT( FT_Error )
+    UNITY_FT_Get_Kerning( FT_Face     face,
+                   FT_UInt     left_glyph,
+                   FT_UInt     right_glyph,
+                   FT_UInt     kern_mode,
+                   FT_Vector  *akerning );
+
+}
+#define FT_Glyph_StrokeBorder UNITY_FT_Glyph_StrokeBorder
+#define FT_Glyph_Get_CBox UNITY_FT_Glyph_Get_CBox
+#define FT_Done_Glyph UNITY_FT_Done_Glyph
+#define FT_Load_Glyph UNITY_FT_Load_Glyph
+#define FT_Init_FreeType UNITY_FT_Init_FreeType
+#define FT_Stroker_Done UNITY_FT_Stroker_Done
+#define FT_Get_Char_Index UNITY_FT_Get_Char_Index
+#define FT_Stroker_Set UNITY_FT_Stroker_Set
+#define FT_Select_Charmap UNITY_FT_Select_Charmap
+#define FT_Outline_Render UNITY_FT_Outline_Render
+#define FT_Set_Char_Size UNITY_FT_Set_Char_Size
+#define FT_Done_FreeType UNITY_FT_Done_FreeType
+#define FT_Done_Face UNITY_FT_Done_Face
+#define FT_Stroker_New UNITY_FT_Stroker_New
+#define FT_New_Memory_Face UNITY_FT_New_Memory_Face
+#define FT_Get_Glyph UNITY_FT_Get_Glyph
+#define FT_Outline_Translate UNITY_FT_Outline_Translate
+#define FT_Get_Kerning UNITY_FT_Get_Kerning
+#endif
+/** UNITY LINKING HACKS - END **/
+
 typedef struct _DataRef
 {
     Data data;
@@ -567,5 +672,29 @@ void FontFreeType::renderCharAt(unsigned char *dest,int posX, int posY, unsigned
         }
     } 
 }
+
+/** UNITY LINKING HACKS - BEGIN **/
+#if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
+
+#undef FT_Glyph_StrokeBorder
+#undef FT_Glyph_Get_CBox
+#undef FT_Done_Glyph
+#undef FT_Load_Glyph
+#undef FT_Init_FreeType
+#undef FT_Stroker_Done
+#undef FT_Get_Char_Index
+#undef FT_Stroker_Set
+#undef FT_Select_Charmap
+#undef FT_Outline_Render
+#undef FT_Set_Char_Size
+#undef FT_Done_FreeType
+#undef FT_Done_Face
+#undef FT_Stroker_New
+#undef FT_New_Memory_Face
+#undef FT_Get_Glyph
+#undef FT_Outline_Translate
+#undef FT_Get_Kerning
+#endif
+/** UNITY LINKING HACKS - END **/
 
 NS_CC_END

@@ -27,6 +27,7 @@ package org.cocos2dx.lib;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.concurrent.Semaphore;
@@ -57,7 +58,8 @@ public class Cocos2dxSound {
 	// so there is an array map to a file path
 	private final HashMap<String, ArrayList<Integer>> mPathStreamIDsMap = new HashMap<String, ArrayList<Integer>>();
 
-	private final HashMap<String, Integer> mPathSoundIDMap = new HashMap<String, Integer>();
+	private final HashMap<Integer,String> mLoadingSoundIds = new HashMap<Integer,String>();
+	private final HashMap<String, Integer> mLoadedSoundIdsForPath = new HashMap<String, Integer>();
 
 	private final ArrayList<SoundInfoForLoadedCompleted> mEffecToPlayWhenLoadedArray = new ArrayList<SoundInfoForLoadedCompleted>();
 
@@ -121,13 +123,26 @@ public class Cocos2dxSound {
 	// ===========================================================
 
 	public int preloadEffect(final String pPath) {
-		Integer soundID = this.mPathSoundIDMap.get(pPath);
+		Integer soundID = this.mLoadedSoundIdsForPath.get(pPath);
+		
+		if(soundID == null) {
+			for (Map.Entry<Integer, String> entry : mLoadingSoundIds.entrySet()) {
+			    Integer entrySoundId = entry.getKey();
+			    String soundPath = entry.getValue();
+			    
+			    if(soundPath.equals(pPath)){
+			    	soundID = entrySoundId;
+			    	break;
+			    }
+			}
+		}
+		
 
 		if (soundID == null) {
 			soundID = this.createSoundIDFromAsset(pPath);
 			// save value just in case if file is really loaded
 			if (soundID != Cocos2dxSound.INVALID_SOUND_ID) {
-				this.mPathSoundIDMap.put(pPath, soundID);
+				this.mLoadingSoundIds.put(soundID,pPath);
 			}
 		}
 
@@ -145,15 +160,32 @@ public class Cocos2dxSound {
 		this.mPathStreamIDsMap.remove(pPath);
 
 		// unload effect
-		final Integer soundID = this.mPathSoundIDMap.get(pPath);
+		Integer soundID = this.mLoadedSoundIdsForPath.get(pPath);
+		
+		if(soundID == null){
+			for (Map.Entry<Integer, String> entry : mLoadingSoundIds.entrySet()) {
+			    Integer entrySoundId = entry.getKey();
+			    String soundPath = entry.getValue();
+			    
+			    if(soundPath.equals(pPath)){
+			    	soundID = entrySoundId;
+			    	break;
+			    }
+			}
+			
+			if(soundID != null){
+				this.mLoadingSoundIds.remove(soundID);
+			}
+		}
+		
 		if(soundID != null){
 			this.mSoundPool.unload(soundID);
-			this.mPathSoundIDMap.remove(pPath);
+			this.mLoadedSoundIdsForPath.remove(pPath);
 		}
 	}
 
 	public int playEffect(final String pPath, final boolean pLoop, float pitch, float pan, float gain){
-		Integer soundID = this.mPathSoundIDMap.get(pPath);
+		Integer soundID = this.mLoadedSoundIdsForPath.get(pPath);
 		int streamID = Cocos2dxSound.INVALID_STREAM_ID;
 
 		if (soundID != null) {
@@ -282,7 +314,8 @@ public class Cocos2dxSound {
 	public void end() {
 		this.mSoundPool.release();
 		this.mPathStreamIDsMap.clear();
-		this.mPathSoundIDMap.clear();
+		this.mLoadedSoundIdsForPath.clear();
+		this.mLoadingSoundIds.clear();
 		this.mEffecToPlayWhenLoadedArray.clear();
 
 		this.mLeftVolume = 0.5f;
@@ -372,7 +405,13 @@ public class Cocos2dxSound {
 		@Override
 		public void onLoadComplete(SoundPool soundPool, int sampleId, int status) {
 			if (status == 0)
-			{
+			{	
+				if(mLoadingSoundIds.containsKey(sampleId)) {
+					String soundPath = mLoadingSoundIds.get(sampleId);
+					mLoadingSoundIds.remove(sampleId);
+					mLoadedSoundIdsForPath.put(soundPath, sampleId);
+				}
+				
 				// only play effect that are in mEffecToPlayWhenLoadedArray
 				for ( SoundInfoForLoadedCompleted info : mEffecToPlayWhenLoadedArray) {
 					if (sampleId == info.soundID) {

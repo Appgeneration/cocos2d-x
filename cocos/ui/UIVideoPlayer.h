@@ -75,6 +75,10 @@ namespace experimental{
 
             virtual void onPlayEvent(int event);
             virtual void draw(Renderer *renderer, const Mat4& transform, uint32_t flags) override;
+            
+#if CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
+            virtual void kids_setVideoSurfaceSize(float componentWidth, float componentHeight);
+#endif
 
         protected:
             virtual cocos2d::ui::Widget* createCloneInstance() override;

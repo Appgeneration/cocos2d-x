@@ -164,6 +164,18 @@ void setVideoKeepRatioEnabled(int index,bool enabled)
         t.env->DeleteLocalRef(t.classID);
     }
 }
+
+void kids_setVideoSurfaceSizeJNI(int index, float componentWidth, float componentHeight)
+{
+    JniMethodInfo t;
+    
+    if (JniHelper::getStaticMethodInfo(t, CLASS_NAME, "kidsSetVideoSurfaceSize", "(IFF)V")) {
+        t.env->CallStaticVoidMethod(t.classID, t.methodID, index, componentWidth, componentHeight);
+        
+        t.env->DeleteLocalRef(t.classID);
+    }
+}
+
 //-----------------------------------------------------------------------------------------------------------
 
 using namespace cocos2d::experimental::ui;
@@ -254,6 +266,11 @@ void VideoPlayer::setKeepAspectRatioEnabled(bool enable)
         _keepAspectRatioEnabled = enable;
         setVideoKeepRatioEnabled(_videoPlayerIndex,enable);
     }
+}
+
+void VideoPlayer::kids_setVideoSurfaceSize(float componentWidth, float componentHeight)
+{
+    kids_setVideoSurfaceSizeJNI(_videoPlayerIndex, componentWidth, componentHeight);
 }
 
 #if CC_VIDEOPLAYER_DEBUG_DRAW

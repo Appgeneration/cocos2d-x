@@ -89,6 +89,9 @@ public class Cocos2dxVideoView extends SurfaceView implements MediaPlayerControl
     protected int mFullScreenWidth = 0;
     protected int mFullScreenHeight = 0;
     
+    protected int mKids_desiredSurfaceWidth = -1;
+    protected int mKids_desiredSurfaceHeight = -1;
+    
     private int mViewTag = 0;
     
     public Cocos2dxVideoView(Cocos2dxActivity activity,int tag) {
@@ -134,6 +137,15 @@ public class Cocos2dxVideoView extends SurfaceView implements MediaPlayerControl
 			fixSize();
 		}
 	}
+    
+    public void kids_SetVideoSurfaceSize(float componentWidth, float componentHeight)
+    {
+    	mKids_desiredSurfaceWidth = Math.round(componentWidth);
+    	mKids_desiredSurfaceHeight = Math.round(componentHeight);
+    	
+    	Log.d("VideoView-Kids", String.format("kids_setSurface(%d, %d)", mKids_desiredSurfaceWidth, mKids_desiredSurfaceHeight));
+    	getHolder().setFixedSize(mKids_desiredSurfaceWidth, mKids_desiredSurfaceHeight);
+    }
     
     public int resolveAdjustedSize(int desiredSize, int measureSpec) {
         int result = desiredSize;
@@ -324,7 +336,13 @@ public class Cocos2dxVideoView extends SurfaceView implements MediaPlayerControl
     	if (mFullScreenEnabled) {
 			fixSize(0, 0, mFullScreenWidth, mFullScreenHeight);
 		} else {
-			fixSize(mViewLeft, mViewTop, mViewWidth, mVideoHeight);
+			// KIDS_CHANGE
+			// Using mVideoHeight, the videos would be displayed with a height
+			// that did not match the intended screen size.
+			// Pausing/Playing multiple times would also resize it to incorrect dimensions.
+			//
+			// fixSize(mViewLeft, mViewTop, mViewWidth, mVideoHeight);
+			fixSize(mViewLeft, mViewTop, mViewWidth, mViewHeight);
 		}
 	}
     
@@ -354,7 +372,14 @@ public class Cocos2dxVideoView extends SurfaceView implements MediaPlayerControl
 			mVisibleHeight = mVideoHeight;
 		}
     	
-    	getHolder().setFixedSize(mVisibleWidth, mVisibleHeight);
+    	// KIDS_CHANGE - Videos show up with incorrect sizes using the original code.
+    	// setFixedSize() should have the intended screen size whenever possible,
+    	// instead of relying on the video dimensions reported by Android.
+    	//
+    	// getHolder().setFixedSize(mVideoWidth, mVideoHeight);
+    	
+    	// Log.d("VideoView-Kids", String.format("fixSize(%d, %d)", mKids_desiredSurfaceWidth, mKids_desiredSurfaceHeight));
+    	getHolder().setFixedSize(mKids_desiredSurfaceWidth, mKids_desiredSurfaceHeight);
     	
     	FrameLayout.LayoutParams lParams = new FrameLayout.LayoutParams(FrameLayout.LayoutParams.WRAP_CONTENT,
 				FrameLayout.LayoutParams.WRAP_CONTENT);
@@ -370,7 +395,12 @@ public class Cocos2dxVideoView extends SurfaceView implements MediaPlayerControl
                 mVideoWidth = mp.getVideoWidth();
                 mVideoHeight = mp.getVideoHeight();
                 if (mVideoWidth != 0 && mVideoHeight != 0) {
-                    getHolder().setFixedSize(mVideoWidth, mVideoHeight);
+                	// KIDS_CHANGE - same change as above.
+                	// Use the intended screen size instead of mVideoWidth and Height.
+                	// getHolder().setFixedSize(mVideoWidth, mVideoHeight);
+                	
+                	// Log.d("VideoView-Kids", String.format("OnVideoSizeChanged(%d, %d)", mKids_desiredSurfaceWidth, mKids_desiredSurfaceHeight));
+                	getHolder().setFixedSize(mKids_desiredSurfaceWidth, mKids_desiredSurfaceHeight);
                 }
             }
     };

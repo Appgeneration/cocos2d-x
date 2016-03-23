@@ -133,8 +133,14 @@ using namespace cocos2d::experimental::ui;
     }
     
     if (videoSource == 1) {
-        self.moviePlayer = [[MPMoviePlayerController alloc] initWithContentURL:[NSURL URLWithString:@(videoUrl.c_str())]];
+        // KIDS BUG FIX - was getting crashes when exiting and re-entering pages with a Video URL component.
+        // For unknown reaons, we should set the contentURL AFTER the sourceType has been defined to avoid crashes.
+        // (Source: http://stackoverflow.com/questions/12041260/an-avplayeritem-cannot-be-associated-with-more-than-one-instance-of-avplayer )
+        // self.moviePlayer = [[MPMoviePlayerController alloc] initWithContentURL:[NSURL URLWithString:@(videoUrl.c_str())]];
+        
+        self.moviePlayer = [[MPMoviePlayerController alloc] init];
         self.moviePlayer.movieSourceType = MPMovieSourceTypeStreaming;
+        [self.moviePlayer setContentURL:[NSURL URLWithString:@(videoUrl.c_str())]];
     } else {
         NSString *path = [UIVideoViewWrapperIos fullPathFromRelativePath:@(videoUrl.c_str())];
         self.moviePlayer = [[MPMoviePlayerController alloc] initWithContentURL:[NSURL fileURLWithPath:path]];

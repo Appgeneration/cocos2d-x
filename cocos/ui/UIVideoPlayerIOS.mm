@@ -331,6 +331,12 @@ void VideoPlayer::draw(Renderer* renderer, const Mat4 &transform, uint32_t flags
         auto frameSize = glView->getFrameSize();
         auto scaleFactor = directorInstance->getContentScaleFactor();
         
+        // BUG FIX - Director's contentScaleFactor is always returning 1 for any iOS device,
+        // which produces erratic behavior in Retina screens (should be 2 or 3).
+#if CC_TARGET_PLATFORM == CC_PLATFORM_IOS
+        scaleFactor = glView->getContentScaleFactor();
+#endif
+        
         auto winSize = directorInstance->getWinSize();
         
         auto leftBottom = convertToWorldSpace(Vec2::ZERO);

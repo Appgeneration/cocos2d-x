@@ -48,6 +48,8 @@ using namespace cocos2d::experimental::ui;
 - (void) setKeepRatioEnabled:(bool) enabled;
 - (void) setFullScreenEnabled:(bool) enabled;
 - (bool) isFullScreenEnabled;
+- (void) setControlEnabled:(bool) enabled;
+- (bool) isControlEnabled;
 
 -(id) init:(void*) videoPlayer;
 
@@ -284,6 +286,21 @@ using namespace cocos2d::experimental::ui;
     
     return fullpath;
 }
+
+- (void) setControlEnabled:(bool) enabled {
+
+    if(enabled) {
+        self.moviePlayer.controlStyle = MPMovieControlStyleEmbedded;
+    }
+    else {
+        self.moviePlayer.controlStyle = MPMovieControlStyleNone;
+    }
+}
+
+- (bool) isControlEnabled {
+    return self.moviePlayer.controlStyle != MPMovieControlStyleNone;
+}
+
 @end
 //------------------------------------------------------------------------------------------------------------
 
@@ -495,6 +512,22 @@ void VideoPlayer::copySpecialProperties(Widget *widget)
         _eventCallback = videoPlayer->_eventCallback;
         _videoView = videoPlayer->_videoView;
     }
+}
+
+void VideoPlayer::setVideoControlEnabled(bool enabled) {
+    if (! _videoURL.empty())
+    {
+        return [((UIVideoViewWrapperIos*)_videoView) setControlEnabled:enabled];
+    }
+}
+
+bool VideoPlayer::isVideoControlEnabled()const {
+    if (! _videoURL.empty())
+    {
+        return [((UIVideoViewWrapperIos*)_videoView) isControlEnabled];
+    }
+    
+    return false;
 }
 
 #endif

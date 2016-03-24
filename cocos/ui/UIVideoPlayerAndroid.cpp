@@ -411,4 +411,12 @@ void executeVideoCallback(int index,int event)
     }
 }
 
+void VideoPlayer::setVideoControlEnabled(bool enabled) {
+    //TODO Implement this on android
+}
+
+bool VideoPlayer::isVideoControlEnabled()const {
+    return false;
+}
+
 #endif

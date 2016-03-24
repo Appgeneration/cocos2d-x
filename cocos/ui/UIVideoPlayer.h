@@ -70,6 +70,9 @@ namespace experimental{
 
             virtual void setFullScreenEnabled(bool enabled);
             virtual bool isFullScreenEnabled()const;
+            
+            virtual void setVideoControlEnabled(bool enabled);
+            virtual bool isVideoControlEnabled()const;
 
             virtual void addEventListener(const VideoPlayer::ccVideoPlayerCallback& callback);
 

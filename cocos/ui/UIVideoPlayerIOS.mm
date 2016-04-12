@@ -48,6 +48,8 @@ using namespace cocos2d::experimental::ui;
 - (void) setKeepRatioEnabled:(bool) enabled;
 - (void) setFullScreenEnabled:(bool) enabled;
 - (bool) isFullScreenEnabled;
+- (void) setControlEnabled:(bool) enabled;
+- (bool) isControlEnabled;
 
 -(id) init:(void*) videoPlayer;
 
@@ -133,8 +135,14 @@ using namespace cocos2d::experimental::ui;
     }
     
     if (videoSource == 1) {
-        self.moviePlayer = [[MPMoviePlayerController alloc] initWithContentURL:[NSURL URLWithString:@(videoUrl.c_str())]];
+        // KIDS BUG FIX - was getting crashes when exiting and re-entering pages with a Video URL component.
+        // For unknown reaons, we should set the contentURL AFTER the sourceType has been defined to avoid crashes.
+        // (Source: http://stackoverflow.com/questions/12041260/an-avplayeritem-cannot-be-associated-with-more-than-one-instance-of-avplayer )
+        // self.moviePlayer = [[MPMoviePlayerController alloc] initWithContentURL:[NSURL URLWithString:@(videoUrl.c_str())]];
+        
+        self.moviePlayer = [[MPMoviePlayerController alloc] init];
         self.moviePlayer.movieSourceType = MPMovieSourceTypeStreaming;
+        [self.moviePlayer setContentURL:[NSURL URLWithString:@(videoUrl.c_str())]];
     } else {
         NSString *path = [UIVideoViewWrapperIos fullPathFromRelativePath:@(videoUrl.c_str())];
         self.moviePlayer = [[MPMoviePlayerController alloc] initWithContentURL:[NSURL fileURLWithPath:path]];
@@ -278,6 +286,21 @@ using namespace cocos2d::experimental::ui;
     
     return fullpath;
 }
+
+- (void) setControlEnabled:(bool) enabled {
+
+    if(enabled) {
+        self.moviePlayer.controlStyle = MPMovieControlStyleEmbedded;
+    }
+    else {
+        self.moviePlayer.controlStyle = MPMovieControlStyleNone;
+    }
+}
+
+- (bool) isControlEnabled {
+    return self.moviePlayer.controlStyle != MPMovieControlStyleNone;
+}
+
 @end
 //------------------------------------------------------------------------------------------------------------
 
@@ -324,6 +347,12 @@ void VideoPlayer::draw(Renderer* renderer, const Mat4 &transform, uint32_t flags
         auto glView = directorInstance->getOpenGLView();
         auto frameSize = glView->getFrameSize();
         auto scaleFactor = directorInstance->getContentScaleFactor();
+        
+        // BUG FIX - Director's contentScaleFactor is always returning 1 for any iOS device,
+        // which produces erratic behavior in Retina screens (should be 2 or 3).
+#if CC_TARGET_PLATFORM == CC_PLATFORM_IOS
+        scaleFactor = glView->getContentScaleFactor();
+#endif
         
         auto winSize = directorInstance->getWinSize();
         
@@ -483,6 +512,22 @@ void VideoPlayer::copySpecialProperties(Widget *widget)
         _eventCallback = videoPlayer->_eventCallback;
         _videoView = videoPlayer->_videoView;
     }
+}
+
+void VideoPlayer::setVideoControlEnabled(bool enabled) {
+    if (! _videoURL.empty())
+    {
+        return [((UIVideoViewWrapperIos*)_videoView) setControlEnabled:enabled];
+    }
+}
+
+bool VideoPlayer::isVideoControlEnabled()const {
+    if (! _videoURL.empty())
+    {
+        return [((UIVideoViewWrapperIos*)_videoView) isControlEnabled];
+    }
+    
+    return false;
 }
 
 #endif

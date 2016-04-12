@@ -406,10 +406,14 @@ Copyright (C) 2008 Apple Inc. All Rights Reserved.
     
     int i = 0;
     for (UITouch *touch in touches) {
-        ids[i] = touch;
-        xs[i] = [touch locationInView: [touch view]].x * self.contentScaleFactor;;
-        ys[i] = [touch locationInView: [touch view]].y * self.contentScaleFactor;;
-        ++i;
+        
+        if([touch view] == self) {
+            ids[i] = touch;
+            xs[i] = [touch locationInView: [touch view]].x * self.contentScaleFactor;;
+            ys[i] = [touch locationInView: [touch view]].y * self.contentScaleFactor;;
+            ++i;
+        }
+        
     }
 
     auto glview = cocos2d::Director::getInstance()->getOpenGLView();
@@ -424,10 +428,13 @@ Copyright (C) 2008 Apple Inc. All Rights Reserved.
     
     int i = 0;
     for (UITouch *touch in touches) {
-        ids[i] = touch;
-        xs[i] = [touch locationInView: [touch view]].x * self.contentScaleFactor;;
-        ys[i] = [touch locationInView: [touch view]].y * self.contentScaleFactor;;
-        ++i;
+        
+        if([touch view] == self) {
+            ids[i] = touch;
+            xs[i] = [touch locationInView: [touch view]].x * self.contentScaleFactor;;
+            ys[i] = [touch locationInView: [touch view]].y * self.contentScaleFactor;;
+            ++i;
+        }
     }
 
     auto glview = cocos2d::Director::getInstance()->getOpenGLView();
@@ -442,10 +449,12 @@ Copyright (C) 2008 Apple Inc. All Rights Reserved.
     
     int i = 0;
     for (UITouch *touch in touches) {
-        ids[i] = touch;
-        xs[i] = [touch locationInView: [touch view]].x * self.contentScaleFactor;;
-        ys[i] = [touch locationInView: [touch view]].y * self.contentScaleFactor;;
-        ++i;
+        if([touch view] == self) {
+            ids[i] = touch;
+            xs[i] = [touch locationInView: [touch view]].x * self.contentScaleFactor;;
+            ys[i] = [touch locationInView: [touch view]].y * self.contentScaleFactor;;
+            ++i;
+        }
     }
 
     auto glview = cocos2d::Director::getInstance()->getOpenGLView();
@@ -460,10 +469,13 @@ Copyright (C) 2008 Apple Inc. All Rights Reserved.
     
     int i = 0;
     for (UITouch *touch in touches) {
-        ids[i] = touch;
-        xs[i] = [touch locationInView: [touch view]].x * self.contentScaleFactor;;
-        ys[i] = [touch locationInView: [touch view]].y * self.contentScaleFactor;;
-        ++i;
+        
+        if([touch view] == self) {
+            ids[i] = touch;
+            xs[i] = [touch locationInView: [touch view]].x * self.contentScaleFactor;;
+            ys[i] = [touch locationInView: [touch view]].y * self.contentScaleFactor;;
+            ++i;
+        }
     }
 
     auto glview = cocos2d::Director::getInstance()->getOpenGLView();

@@ -26,11 +26,14 @@ package org.cocos2dx.lib;
 
 import java.lang.ref.WeakReference;
 
+import org.cocos2dx.lib.Cocos2dxVideoView;
 import org.cocos2dx.lib.Cocos2dxVideoView.OnVideoEventListener;
 
 import android.graphics.Rect;
+import android.graphics.RectF;
 import android.os.Handler;
 import android.os.Message;
+import android.util.Log;
 import android.util.SparseArray;
 import android.view.View;
 import android.widget.FrameLayout;
@@ -65,6 +68,7 @@ public class Cocos2dxVideoHelper {
 	private final static int VideoTaskRestart = 10;
 	private final static int VideoTaskKeepRatio = 11;
 	private final static int VideoTaskFullScreen = 12;
+	private final static int KidsVideoChangeSurfaceSize = 13;
 	final static int KeyEventBack = 1000;
 	
 	static class VideoHandler extends Handler{
@@ -154,6 +158,12 @@ public class Cocos2dxVideoHelper {
 				} else {
 					helper._setVideoKeepRatio(msg.arg1, false);
 				}
+				break;
+			}
+			case KidsVideoChangeSurfaceSize: {
+				Cocos2dxVideoHelper helper = mReference.get();
+				RectF rectf = (RectF)msg.obj;
+				helper._kidsSetVideoSurfaceSize(msg.arg1, rectf.right, rectf.bottom);
 				break;
 			}
 			case KeyEventBack: {
@@ -289,6 +299,24 @@ public class Cocos2dxVideoHelper {
 		Cocos2dxVideoView videoView = sVideoViews.get(index);
 		if (videoView != null) {
 			videoView.setFullScreenEnabled(enabled, width, height);
+		}
+	}
+	
+	// KIDS_CHANGE
+	public static void kidsSetVideoSurfaceSize(int index, float componentWidth, float componentHeight)
+	{
+		Message msg = new Message();
+		msg.what = KidsVideoChangeSurfaceSize;
+		msg.arg1 = index;		
+		msg.obj = new RectF(0, 0, componentWidth, componentHeight);
+		mVideoHandler.sendMessage(msg);
+	}
+	
+	private void _kidsSetVideoSurfaceSize(int index, float componentWidth, float componentHeight) {
+		Cocos2dxVideoView videoView = sVideoViews.get(index);
+		if (videoView != null) {
+			// Log.d("VideoHelper", String.format("wid=%d    hei=%d", (int)componentWidth, (int)componentHeight));
+			videoView.kids_SetVideoSurfaceSize(componentWidth, componentHeight);
 		}
 	}
 	

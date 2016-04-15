@@ -176,6 +176,17 @@ void kids_setVideoSurfaceSizeJNI(int index, float componentWidth, float componen
     }
 }
 
+void kids_setVideoControlsEnabledJNI(int index, bool enableControls)
+{
+    JniMethodInfo t;
+    
+    if (JniHelper::getStaticMethodInfo(t, CLASS_NAME, "kidsSetVideoControlsEnabled", "(IZ)V")) {
+        t.env->CallStaticVoidMethod(t.classID, t.methodID, index, enableControls);
+        
+        t.env->DeleteLocalRef(t.classID);
+    }
+}
+
 //-----------------------------------------------------------------------------------------------------------
 
 using namespace cocos2d::experimental::ui;
@@ -188,6 +199,7 @@ VideoPlayer::VideoPlayer()
 , _fullScreenEnabled(false)
 , _fullScreenDirty(false)
 , _keepAspectRatioEnabled(false)
+, _kidsVideoControlsEnabled(false)
 {
     _videoPlayerIndex = createVideoWidgetJNI();
     s_allVideoPlayers[_videoPlayerIndex] = this;
@@ -338,6 +350,20 @@ void VideoPlayer::seekTo(float sec)
     }
 }
 
+void VideoPlayer::setVideoControlsEnabled(bool enabled)
+{
+    if ( !_videoURL.empty() && _kidsVideoControlsEnabled != enabled )
+    {
+        _kidsVideoControlsEnabled = enabled;
+        kids_setVideoControlsEnabledJNI(_videoPlayerIndex, enabled);
+    }
+}
+
+bool VideoPlayer::isVideoControlsEnabled() const
+{
+    return _kidsVideoControlsEnabled;
+}
+
 bool VideoPlayer::isPlaying() const
 {
     return _isPlaying;
@@ -395,6 +421,7 @@ void VideoPlayer::copySpecialProperties(Widget *widget)
         _fullScreenDirty = videoPlayer->_fullScreenDirty;
         _videoURL = videoPlayer->_videoURL;
         _keepAspectRatioEnabled = videoPlayer->_keepAspectRatioEnabled;
+        _kidsVideoControlsEnabled = videoPlayer->_kidsVideoControlsEnabled;
         _videoSource = videoPlayer->_videoSource;
         _videoPlayerIndex = videoPlayer->_videoPlayerIndex;
         _eventCallback = videoPlayer->_eventCallback;
@@ -409,14 +436,6 @@ void executeVideoCallback(int index,int event)
     {
         s_allVideoPlayers[index]->onPlayEvent(event);
     }
-}
-
-void VideoPlayer::setVideoControlEnabled(bool enabled) {
-    //TODO Implement this on android
-}
-
-bool VideoPlayer::isVideoControlEnabled()const {
-    return false;
 }
 
 #endif

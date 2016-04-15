@@ -514,14 +514,14 @@ void VideoPlayer::copySpecialProperties(Widget *widget)
     }
 }
 
-void VideoPlayer::setVideoControlEnabled(bool enabled) {
+void VideoPlayer::setVideoControlsEnabled(bool enabled) {
     if (! _videoURL.empty())
     {
         return [((UIVideoViewWrapperIos*)_videoView) setControlEnabled:enabled];
     }
 }
 
-bool VideoPlayer::isVideoControlEnabled()const {
+bool VideoPlayer::isVideoControlsEnabled()const {
     if (! _videoURL.empty())
     {
         return [((UIVideoViewWrapperIos*)_videoView) isControlEnabled];

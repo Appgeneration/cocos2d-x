@@ -31,6 +31,7 @@ import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.widget.FrameLayout;
+import android.widget.MediaController;
 import android.widget.MediaController.MediaPlayerControl;
 
 import java.io.IOException;
@@ -62,6 +63,7 @@ public class Cocos2dxVideoView extends SurfaceView implements MediaPlayerControl
     // All the stuff we need for playing and showing a video
     private SurfaceHolder mSurfaceHolder = null;
     private MediaPlayer mMediaPlayer = null;
+    private MediaController mKids_mediaController = null; 
     private int         mVideoWidth = 0;
     private int         mVideoHeight = 0;
     
@@ -89,6 +91,7 @@ public class Cocos2dxVideoView extends SurfaceView implements MediaPlayerControl
     protected int mFullScreenWidth = 0;
     protected int mFullScreenHeight = 0;
     
+    protected boolean mKids_videoControlsEnabled = false;
     protected int mKids_desiredSurfaceWidth = -1;
     protected int mKids_desiredSurfaceHeight = -1;
     
@@ -145,6 +148,15 @@ public class Cocos2dxVideoView extends SurfaceView implements MediaPlayerControl
     	
     	Log.d("VideoView-Kids", String.format("kids_setSurface(%d, %d)", mKids_desiredSurfaceWidth, mKids_desiredSurfaceHeight));
     	getHolder().setFixedSize(mKids_desiredSurfaceWidth, mKids_desiredSurfaceHeight);
+    }
+    
+    public void kids_SetVideoControlsEnabled(boolean enabled)
+    {
+    	if (mKids_videoControlsEnabled != enabled)
+    	{
+    		Log.d("VideoView-Kids", String.format("kids_SetVideoControlsEnabled=%b", enabled));    		
+    		mKids_videoControlsEnabled = enabled;
+    	}
     }
     
     public int resolveAdjustedSize(int desiredSize, int measureSpec) {
@@ -207,6 +219,12 @@ public class Cocos2dxVideoView extends SurfaceView implements MediaPlayerControl
     public boolean onTouchEvent(MotionEvent event) {
     	if((event.getAction() & MotionEvent.ACTION_MASK) == MotionEvent.ACTION_UP)
     	{
+    		if (mKids_videoControlsEnabled)
+    		{
+        		mKids_mediaController.setEnabled(true);
+    			mKids_mediaController.show();
+    		}
+    		
     		if (isPlaying()) {
     			pause();
     		} else if(mCurrentState == STATE_PAUSED){
@@ -255,6 +273,7 @@ public class Cocos2dxVideoView extends SurfaceView implements MediaPlayerControl
             mMediaPlayer.stop();
             mMediaPlayer.release();
             mMediaPlayer = null;
+            mKids_mediaController = null;
             mCurrentState = STATE_IDLE;
             mTargetState  = STATE_IDLE;
         }
@@ -295,6 +314,8 @@ public class Cocos2dxVideoView extends SurfaceView implements MediaPlayerControl
                 mMediaPlayer.setDisplay(mSurfaceHolder);
                 mMediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
                 mMediaPlayer.setScreenOnWhilePlaying(true);
+                mKids_mediaController = new MediaController(getContext());
+        		mKids_mediaController.setEnabled(mKids_videoControlsEnabled);
 			//}
         	
         	mDuration = -1;
@@ -386,6 +407,9 @@ public class Cocos2dxVideoView extends SurfaceView implements MediaPlayerControl
 		lParams.leftMargin = mVisibleLeft;
 		lParams.topMargin = mVisibleTop;
 		setLayoutParams(lParams);
+		
+		if (mKids_videoControlsEnabled)
+			mKids_mediaController.setAnchorView(Cocos2dxVideoView.this);
 	}
 
     protected 
@@ -416,7 +440,8 @@ public class Cocos2dxVideoView extends SurfaceView implements MediaPlayerControl
             
             mVideoWidth = mp.getVideoWidth();
             mVideoHeight = mp.getVideoHeight();
-
+            mKids_mediaController.setMediaPlayer(Cocos2dxVideoView.this);
+            
             int seekToPosition = mSeekWhenPrepared;  // mSeekWhenPrepared may be changed after seekTo() call
             if (seekToPosition != 0) {
                 seekTo(seekToPosition);
@@ -590,6 +615,7 @@ public class Cocos2dxVideoView extends SurfaceView implements MediaPlayerControl
             mMediaPlayer.reset();
             mMediaPlayer.release();
             mMediaPlayer = null;
+            mKids_mediaController = null;
             mCurrentState = STATE_IDLE;
             if (cleartargetstate) {
                 mTargetState  = STATE_IDLE;
@@ -600,6 +626,9 @@ public class Cocos2dxVideoView extends SurfaceView implements MediaPlayerControl
     public void start() {
     	if (isInPlaybackState()) {
             mMediaPlayer.start();
+            if (mKids_videoControlsEnabled)
+            	mKids_mediaController.show();
+            
             mCurrentState = STATE_PLAYING;
             if (mOnVideoEventListener != null) {
             	mOnVideoEventListener.onVideoEvent(mViewTag, EVENT_PLAYING);

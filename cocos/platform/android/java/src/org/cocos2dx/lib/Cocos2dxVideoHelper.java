@@ -69,6 +69,7 @@ public class Cocos2dxVideoHelper {
 	private final static int VideoTaskKeepRatio = 11;
 	private final static int VideoTaskFullScreen = 12;
 	private final static int KidsVideoChangeSurfaceSize = 13;
+	private final static int KidsVideoTaskVideoControls = 14;
 	final static int KeyEventBack = 1000;
 	
 	static class VideoHandler extends Handler{
@@ -164,6 +165,13 @@ public class Cocos2dxVideoHelper {
 				Cocos2dxVideoHelper helper = mReference.get();
 				RectF rectf = (RectF)msg.obj;
 				helper._kidsSetVideoSurfaceSize(msg.arg1, rectf.right, rectf.bottom);
+				break;
+			}
+			case KidsVideoTaskVideoControls: {
+				Cocos2dxVideoHelper helper = mReference.get();
+				boolean enableControls = (msg.arg2 == 1 ? true : false);
+				
+				helper._kidsSetVideoControlsEnabled(msg.arg1, enableControls);
 				break;
 			}
 			case KeyEventBack: {
@@ -317,6 +325,24 @@ public class Cocos2dxVideoHelper {
 		if (videoView != null) {
 			// Log.d("VideoHelper", String.format("wid=%d    hei=%d", (int)componentWidth, (int)componentHeight));
 			videoView.kids_SetVideoSurfaceSize(componentWidth, componentHeight);
+		}
+	}
+	
+	public static void kidsSetVideoControlsEnabled(int index, boolean enabled)
+	{
+		Message msg = new Message();
+		msg.what = KidsVideoTaskVideoControls;
+		msg.arg1 = index;
+		msg.arg2 = (enabled ? 1 : 0);
+		mVideoHandler.sendMessage(msg);
+	}
+	
+	private void _kidsSetVideoControlsEnabled(int index, boolean enabled)
+	{
+		Cocos2dxVideoView videoView = sVideoViews.get(index);
+		if (videoView != null) {
+			// Log.d("VideoHelper", String.format("controlsEnabled=%b", enabled));
+			videoView.kids_SetVideoControlsEnabled(enabled);
 		}
 	}
 	

@@ -82,7 +82,9 @@ namespace experimental{
 #if CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
             virtual void kids_setVideoSurfaceSize(float componentWidth, float componentHeight);
 #endif
-
+            virtual void kids_appIsGoingToBackground();
+            virtual void kids_appIsReturningToForeground();
+            
         protected:
             virtual cocos2d::ui::Widget* createCloneInstance() override;
             virtual void copySpecialProperties(Widget* model) override;

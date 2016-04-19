@@ -285,6 +285,16 @@ void VideoPlayer::kids_setVideoSurfaceSize(float componentWidth, float component
     kids_setVideoSurfaceSizeJNI(_videoPlayerIndex, componentWidth, componentHeight);
 }
 
+void VideoPlayer::kids_appIsGoingToBackground()
+{
+    // NOT NECESSARY TO IMPLEMENT ON ANDROID
+}
+
+void VideoPlayer::kids_appIsReturningToForeground()
+{
+    // NOT NECESSARY TO IMPLEMENT ON ANDROID
+}
+
 #if CC_VIDEOPLAYER_DEBUG_DRAW
 void VideoPlayer::drawDebugData()
 {

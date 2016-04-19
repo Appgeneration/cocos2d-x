@@ -209,6 +209,7 @@ public class Cocos2dxVideoHelper {
 		
 		@Override
 		public void onVideoEvent(int tag,int event) {
+			// Log.d("KIDS-VIDEO-HELPER", Log.getStackTraceString(new Exception()));
 			mActivity.runOnGLThread(new VideoEventRunnable(tag, event));
 		}
 	};

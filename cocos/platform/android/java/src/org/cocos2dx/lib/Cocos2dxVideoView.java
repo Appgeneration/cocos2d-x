@@ -64,6 +64,9 @@ public class Cocos2dxVideoView extends SurfaceView implements MediaPlayerControl
     private SurfaceHolder mSurfaceHolder = null;
     private MediaPlayer mMediaPlayer = null;
     private MediaController mKids_mediaController = null; 
+    private boolean mKids_resumeVideoAfterBackground = false;
+    private boolean mKids_resumeVideoWithPlay = false;
+    private int mKids_resumeSeekTime = 0;
     private int         mVideoWidth = 0;
     private int         mVideoHeight = 0;
     
@@ -414,6 +417,20 @@ public class Cocos2dxVideoView extends SurfaceView implements MediaPlayerControl
 		
 		if (mKids_videoControlsEnabled)
 			mKids_mediaController.setAnchorView(Cocos2dxVideoView.this);
+		
+        if (mKids_resumeVideoAfterBackground)
+        {
+        	// Log.d("KIDS-VIDEO", "WILL RESUME shouldPlay=" + mKids_resumeVideoWithPlay);
+        	mMediaPlayer.seekTo(mKids_resumeSeekTime);
+        	
+        	if (!mKids_resumeVideoWithPlay)
+        		pause();
+
+        	if (mKids_videoControlsEnabled)
+        		mKids_mediaController.show();
+        	
+        	mKids_resumeVideoAfterBackground = false;
+        }
 	}
 
     protected 
@@ -604,6 +621,13 @@ public class Cocos2dxVideoView extends SurfaceView implements MediaPlayerControl
 
         public void surfaceDestroyed(SurfaceHolder holder)
         {
+        	// Log.d("KIDS-VIDEO", "DESTROYED - will release :: time=" + mMediaPlayer.getCurrentPosition() + "   state=" + mCurrentState); 
+        	// Log.d("KIDS-VIDEO", Log.getStackTraceString(new Exception()));
+
+        	mKids_resumeVideoAfterBackground = true;
+        	mKids_resumeVideoWithPlay = (mCurrentState == STATE_PLAYING);
+        	mKids_resumeSeekTime = mMediaPlayer.getCurrentPosition();
+            
             // after we return from this we can't use the surface any more
             mSurfaceHolder = null;
             

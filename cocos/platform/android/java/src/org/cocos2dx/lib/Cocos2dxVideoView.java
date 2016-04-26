@@ -201,7 +201,7 @@ public class Cocos2dxVideoView extends SurfaceView implements MediaPlayerControl
 				mSeekWhenPrepared = getCurrentPosition();
 			}
 			
-			if (mKids_videoControlsEnabled)
+			if (mKids_videoControlsEnabled && mKids_mediaController != null)
 				mKids_mediaController.hide();
 		}
     	else if (mNeedResume){

@@ -18,6 +18,7 @@
 
 #include <Box2D/Collision/Shapes/b2PolygonShape.h>
 #include <new>
+using namespace cocos2d;
 
 b2Shape* b2PolygonShape::Clone(b2BlockAllocator* allocator) const
 {

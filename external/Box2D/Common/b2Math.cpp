@@ -17,8 +17,9 @@
 */
 
 #include <Box2D/Common/b2Math.h>
+using namespace cocos2d;
 
-const b2Vec2 b2Vec2_zero(0.0f, 0.0f);
+const b2Vec2 cocos2d::b2Vec2_zero(0.0f, 0.0f);
 
 /// Solve A * x = b, where b is a column vector. This is more efficient
 /// than computing the inverse in one-shot cases.

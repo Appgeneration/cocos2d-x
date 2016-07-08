@@ -17,6 +17,7 @@
 */
 
 #include <Box2D/Common/b2Timer.h>
+using namespace cocos2d;
 
 #if defined(_WIN32)
 

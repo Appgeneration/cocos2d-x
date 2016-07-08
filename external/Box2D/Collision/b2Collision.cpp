@@ -18,6 +18,7 @@
 
 #include <Box2D/Collision/b2Collision.h>
 #include <Box2D/Collision/b2Distance.h>
+using namespace cocos2d;
 
 void b2WorldManifold::Initialize(const b2Manifold* manifold,
 						  const b2Transform& xfA, float32 radiusA,
@@ -85,7 +86,7 @@ void b2WorldManifold::Initialize(const b2Manifold* manifold,
 	}
 }
 
-void b2GetPointStates(b2PointState state1[b2_maxManifoldPoints], b2PointState state2[b2_maxManifoldPoints],
+void cocos2d::b2GetPointStates(b2PointState state1[b2_maxManifoldPoints], b2PointState state2[b2_maxManifoldPoints],
 					  const b2Manifold* manifold1, const b2Manifold* manifold2)
 {
 	for (int32 i = 0; i < b2_maxManifoldPoints; ++i)
@@ -198,7 +199,7 @@ bool b2AABB::RayCast(b2RayCastOutput* output, const b2RayCastInput& input) const
 }
 
 // Sutherland-Hodgman clipping.
-int32 b2ClipSegmentToLine(b2ClipVertex vOut[2], const b2ClipVertex vIn[2],
+int32 cocos2d::b2ClipSegmentToLine(b2ClipVertex vOut[2], const b2ClipVertex vIn[2],
 						const b2Vec2& normal, float32 offset, int32 vertexIndexA)
 {
 	// Start with no output points
@@ -230,7 +231,7 @@ int32 b2ClipSegmentToLine(b2ClipVertex vOut[2], const b2ClipVertex vIn[2],
 	return numOut;
 }
 
-bool b2TestOverlap(	const b2Shape* shapeA, int32 indexA,
+bool cocos2d::b2TestOverlap(	const b2Shape* shapeA, int32 indexA,
 					const b2Shape* shapeB, int32 indexB,
 					const b2Transform& xfA, const b2Transform& xfB)
 {

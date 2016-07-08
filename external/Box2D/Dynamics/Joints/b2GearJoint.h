@@ -20,7 +20,7 @@
 #define B2_GEAR_JOINT_H
 
 #include <Box2D/Dynamics/Joints/b2Joint.h>
-
+namespace cocos2d{
 /// Gear joint definition. This definition requires two existing
 /// revolute or prismatic joints (any combination will work).
 struct b2GearJointDef : public b2JointDef
@@ -121,5 +121,5 @@ protected:
 	float32 m_JwA, m_JwB, m_JwC, m_JwD;
 	float32 m_mass;
 };
-
+}
 #endif

@@ -19,8 +19,9 @@
 #include <Box2D/Collision/b2Collision.h>
 #include <Box2D/Collision/Shapes/b2CircleShape.h>
 #include <Box2D/Collision/Shapes/b2PolygonShape.h>
+using namespace cocos2d;
 
-void b2CollideCircles(
+void cocos2d::b2CollideCircles(
 	b2Manifold* manifold,
 	const b2CircleShape* circleA, const b2Transform& xfA,
 	const b2CircleShape* circleB, const b2Transform& xfB)
@@ -48,7 +49,7 @@ void b2CollideCircles(
 	manifold->points[0].id.key = 0;
 }
 
-void b2CollidePolygonAndCircle(
+void cocos2d::b2CollidePolygonAndCircle(
 	b2Manifold* manifold,
 	const b2PolygonShape* polygonA, const b2Transform& xfA,
 	const b2CircleShape* circleB, const b2Transform& xfB)

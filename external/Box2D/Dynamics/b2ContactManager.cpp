@@ -22,6 +22,8 @@
 #include <Box2D/Dynamics/b2WorldCallbacks.h>
 #include <Box2D/Dynamics/Contacts/b2Contact.h>
 
+namespace cocos2d {
+
 b2ContactFilter b2_defaultFilter;
 b2ContactListener b2_defaultListener;
 
@@ -293,4 +295,5 @@ void b2ContactManager::AddPair(void* proxyUserDataA, void* proxyUserDataB)
 	}
 
 	++m_contactCount;
+}
 }

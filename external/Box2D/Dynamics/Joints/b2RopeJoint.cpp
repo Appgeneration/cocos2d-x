@@ -28,6 +28,7 @@
 // J = [-u -cross(rA, u) u cross(rB, u)]
 // K = J * invM * JT
 //   = invMassA + invIA * cross(rA, u)^2 + invMassB + invIB * cross(rB, u)^2
+using namespace cocos2d;
 
 b2RopeJoint::b2RopeJoint(const b2RopeJointDef* def)
 : b2Joint(def)

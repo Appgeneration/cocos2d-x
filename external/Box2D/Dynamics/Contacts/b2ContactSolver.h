@@ -22,7 +22,7 @@
 #include <Box2D/Common/b2Math.h>
 #include <Box2D/Collision/b2Collision.h>
 #include <Box2D/Dynamics/b2TimeStep.h>
-
+namespace cocos2d{
 class b2Contact;
 class b2Body;
 class b2StackAllocator;
@@ -90,6 +90,6 @@ public:
 	b2Contact** m_contacts;
 	int m_count;
 };
-
+}
 #endif
 

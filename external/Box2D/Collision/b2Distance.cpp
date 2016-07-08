@@ -21,9 +21,11 @@
 #include <Box2D/Collision/Shapes/b2EdgeShape.h>
 #include <Box2D/Collision/Shapes/b2ChainShape.h>
 #include <Box2D/Collision/Shapes/b2PolygonShape.h>
+using namespace cocos2d;
 
 // GJK using Voronoi regions (Christer Ericson) and Barycentric coordinates.
-int32 b2_gjkCalls, b2_gjkIters, b2_gjkMaxIters;
+namespace cocos2d {
+    int32 b2_gjkCalls, b2_gjkIters, b2_gjkMaxIters;
 
 void b2DistanceProxy::Set(const b2Shape* shape, int32 index)
 {
@@ -441,7 +443,7 @@ void b2Simplex::Solve3()
 	m_count = 3;
 }
 
-void b2Distance(b2DistanceOutput* output,
+void cocos2d::b2Distance(b2DistanceOutput* output,
 				b2SimplexCache* cache,
 				const b2DistanceInput* input)
 {
@@ -600,4 +602,5 @@ void b2Distance(b2DistanceOutput* output,
 			output->distance = 0.0f;
 		}
 	}
+}
 }

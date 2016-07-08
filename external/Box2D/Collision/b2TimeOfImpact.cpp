@@ -24,10 +24,14 @@
 #include <Box2D/Common/b2Timer.h>
 
 #include <stdio.h>
+using namespace cocos2d;
 
+namespace cocos2d {
+    
 float32 b2_toiTime, b2_toiMaxTime;
 int32 b2_toiCalls, b2_toiIters, b2_toiMaxIters;
 int32 b2_toiRootIters, b2_toiMaxRootIters;
+
 
 //
 struct b2SeparationFunction
@@ -251,7 +255,7 @@ struct b2SeparationFunction
 
 // CCD via the local separating axis method. This seeks progression
 // by computing the largest time at which separation is maintained.
-void b2TimeOfImpact(b2TOIOutput* output, const b2TOIInput* input)
+void cocos2d::b2TimeOfImpact(b2TOIOutput* output, const b2TOIInput* input)
 {
 	b2Timer timer;
 
@@ -483,4 +487,5 @@ void b2TimeOfImpact(b2TOIOutput* output, const b2TOIInput* input)
 	float32 time = timer.GetMilliseconds();
 	b2_toiMaxTime = b2Max(b2_toiMaxTime, time);
 	b2_toiTime += time;
+}
 }

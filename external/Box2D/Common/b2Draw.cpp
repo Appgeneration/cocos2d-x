@@ -17,6 +17,7 @@
 */
 
 #include <Box2D/Common/b2Draw.h>
+using namespace cocos2d;
 
 b2Draw::b2Draw()
 {

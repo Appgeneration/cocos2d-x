@@ -21,7 +21,7 @@
 #include <Box2D/Common/b2Settings.h>
 #include <memory.h>
 #include <string.h>
-
+namespace cocos2d{
 /// This is a growable LIFO stack with an initial capacity of N.
 /// If the stack size exceeds the initial capacity, the heap is used
 /// to increase the size of the stack.
@@ -82,5 +82,5 @@ private:
 	int32 m_capacity;
 };
 
-
+}
 #endif

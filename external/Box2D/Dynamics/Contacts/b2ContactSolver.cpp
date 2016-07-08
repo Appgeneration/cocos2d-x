@@ -25,7 +25,8 @@
 #include <Box2D/Common/b2StackAllocator.h>
 
 #define B2_DEBUG_SOLVER 0
-
+using namespace cocos2d;
+namespace cocos2d {
 struct b2ContactPositionConstraint
 {
 	b2Vec2 localPoints[b2_maxManifoldPoints];
@@ -40,7 +41,8 @@ struct b2ContactPositionConstraint
 	float32 radiusA, radiusB;
 	int32 pointCount;
 };
-
+}
+    
 b2ContactSolver::b2ContactSolver(b2ContactSolverDef* def)
 {
 	m_step = def->step;

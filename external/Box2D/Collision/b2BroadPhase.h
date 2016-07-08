@@ -23,7 +23,7 @@
 #include <Box2D/Collision/b2Collision.h>
 #include <Box2D/Collision/b2DynamicTree.h>
 #include <algorithm>
-
+namespace cocos2d{
 struct b2Pair
 {
 	int32 proxyIdA;
@@ -253,5 +253,5 @@ inline void b2BroadPhase::ShiftOrigin(const b2Vec2& newOrigin)
 {
 	m_tree.ShiftOrigin(newOrigin);
 }
-
+}
 #endif

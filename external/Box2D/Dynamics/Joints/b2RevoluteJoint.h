@@ -20,7 +20,7 @@
 #define B2_REVOLUTE_JOINT_H
 
 #include <Box2D/Dynamics/Joints/b2Joint.h>
-
+namespace cocos2d{
 /// Revolute joint definition. This requires defining an
 /// anchor point where the bodies are joined. The definition
 /// uses local anchor points so that the initial configuration
@@ -200,5 +200,5 @@ inline float32 b2RevoluteJoint::GetMotorSpeed() const
 {
 	return m_motorSpeed;
 }
-
+}
 #endif

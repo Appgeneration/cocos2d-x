@@ -26,6 +26,7 @@
 #include <Box2D/Dynamics/Joints/b2Joint.h>
 #include <Box2D/Common/b2StackAllocator.h>
 #include <Box2D/Common/b2Timer.h>
+using namespace cocos2d;
 
 /*
 Position Correction Notes

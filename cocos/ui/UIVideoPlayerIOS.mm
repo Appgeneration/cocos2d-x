@@ -36,6 +36,9 @@ using namespace cocos2d::experimental::ui;
 @interface UIVideoViewWrapperIos : NSObject
 
 @property (strong,nonatomic) MPMoviePlayerController * moviePlayer;
+@property (nonatomic) NSTimeInterval kids_checkPauseTime;
+@property (nonatomic) BOOL kids_checkPauseForBackground;
+@property (nonatomic) BOOL kids_resumeVideoAfterBackground;
 
 - (void) setFrame:(int) left :(int) top :(int) width :(int) height;
 - (void) setURL:(int) videoSource :(std::string&) videoUrl;
@@ -50,6 +53,7 @@ using namespace cocos2d::experimental::ui;
 - (bool) isFullScreenEnabled;
 - (void) setControlEnabled:(bool) enabled;
 - (bool) isControlEnabled;
+- (void) kids_appIsGoingToBackground;
 
 -(id) init:(void*) videoPlayer;
 
@@ -75,6 +79,8 @@ using namespace cocos2d::experimental::ui;
 {
     if (self = [super init]) {
         self.moviePlayer = nullptr;
+        self.kids_checkPauseForBackground = NO;
+        self.kids_resumeVideoAfterBackground = NO;
         _videoPlayer = (VideoPlayer*)videoPlayer;
         _keepRatioEnabled = false;
     }
@@ -190,20 +196,32 @@ using namespace cocos2d::experimental::ui;
     switch (state) {
         case MPMoviePlaybackStatePaused:
             _videoPlayer->onPlayEvent((int)VideoPlayer::EventType::PAUSED);
+
+            // BUG FIX: native videos are always paused when the app is going to background,
+            // BEFORE we actually receive the "appWillGoToBackground" event.
+            self.kids_checkPauseTime = [NSDate timeIntervalSinceReferenceDate];
+            self.kids_checkPauseForBackground = YES;
             break;
+            
         case MPMoviePlaybackStateStopped:
             _videoPlayer->onPlayEvent((int)VideoPlayer::EventType::STOPPED);
+            self.kids_checkPauseForBackground = NO;
             break;
         case MPMoviePlaybackStatePlaying:
             _videoPlayer->onPlayEvent((int)VideoPlayer::EventType::PLAYING);
+            self.kids_checkPauseForBackground = NO;
             break;
         case MPMoviePlaybackStateInterrupted:
+            self.kids_checkPauseForBackground = NO;
             break;
         case MPMoviePlaybackStateSeekingBackward:
+            self.kids_checkPauseForBackground = NO;
             break;
         case MPMoviePlaybackStateSeekingForward:
+            self.kids_checkPauseForBackground = NO;
             break;
         default:
+            self.kids_checkPauseForBackground = NO;
             break;
     }
 }
@@ -299,6 +317,35 @@ using namespace cocos2d::experimental::ui;
 
 - (bool) isControlEnabled {
     return self.moviePlayer.controlStyle != MPMovieControlStyleNone;
+}
+
+- (void) kids_appIsGoingToBackground
+{
+    if (self.kids_checkPauseForBackground)
+    {
+        NSTimeInterval currentTime = [NSDate timeIntervalSinceReferenceDate];
+        NSTimeInterval timeDifference = currentTime - self.kids_checkPauseTime;
+        
+        NSLog(@"UIVideoPlayerIOS: BACKGROUND TIME DIFF WAS => %f", (double)timeDifference);
+        
+        // The video was "likely" playing (there's no way to tell this with 100% certainty)
+        // and needs to be resumed when the app returns from background.
+        
+        self.kids_resumeVideoAfterBackground = (timeDifference <= 1.5);
+    }
+}
+
+- (void) kids_appIsReturningToForeground
+{
+    NSLog(@"UIVideoPlayerIOS: resumeVideo? => %@", (self.kids_resumeVideoAfterBackground ? @"YES" : @"NO"));
+    
+    if (self.kids_checkPauseForBackground && self.kids_resumeVideoAfterBackground)
+    {
+        [self play];
+    }
+    
+    self.kids_checkPauseForBackground = NO;
+    self.kids_resumeVideoAfterBackground = NO;
 }
 
 @end
@@ -492,6 +539,22 @@ void VideoPlayer::onPlayEvent(int event)
     }
 }
 
+void VideoPlayer::kids_appIsGoingToBackground()
+{
+    if (! _videoURL.empty() )
+    {
+        [((UIVideoViewWrapperIos*)_videoView) kids_appIsGoingToBackground];
+    }
+}
+
+void VideoPlayer::kids_appIsReturningToForeground()
+{
+    if (! _videoURL.empty() )
+    {
+        [((UIVideoViewWrapperIos*)_videoView) kids_appIsReturningToForeground];
+    }
+}
+
 cocos2d::ui::Widget* VideoPlayer::createCloneInstance()
 {
     return VideoPlayer::create();
@@ -514,14 +577,14 @@ void VideoPlayer::copySpecialProperties(Widget *widget)
     }
 }
 
-void VideoPlayer::setVideoControlEnabled(bool enabled) {
+void VideoPlayer::setVideoControlsEnabled(bool enabled) {
     if (! _videoURL.empty())
     {
         return [((UIVideoViewWrapperIos*)_videoView) setControlEnabled:enabled];
     }
 }
 
-bool VideoPlayer::isVideoControlEnabled()const {
+bool VideoPlayer::isVideoControlsEnabled()const {
     if (! _videoURL.empty())
     {
         return [((UIVideoViewWrapperIos*)_videoView) isControlEnabled];

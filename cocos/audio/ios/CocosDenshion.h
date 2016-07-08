@@ -91,7 +91,9 @@ Requirements:
 #import "CDOpenALSupport.h"
 
 //Tested source limit on 2.2.1 and 3.1.2 with up to 128 sources and appears to work. Older OS versions e.g 2.2 may support only 32
-#define CD_SOURCE_LIMIT 32 //Total number of sources we will ever want, may actually get less
+// (APPGEN FIX: changed CD_SOURCE_LIMIT from 32 to 16.
+// Certain sounds effects started failing with one of our clients' books, if we spammed too many sounds at once.
+#define CD_SOURCE_LIMIT 16 //Total number of sources we will ever want, may actually get less
 #define CD_NO_SOURCE 0xFEEDFAC //Return value indicating playback failed i.e. no source
 #define CD_IGNORE_AUDIO_SESSION 0xBEEFBEE //Used internally to indicate audio session will not be handled
 #define CD_MUTE      0xFEEDBAB //Return value indicating sound engine is muted or non functioning

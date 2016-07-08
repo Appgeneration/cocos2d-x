@@ -20,7 +20,7 @@
 #define B2_CHAIN_AND_CIRCLE_CONTACT_H
 
 #include <Box2D/Dynamics/Contacts/b2Contact.h>
-
+namespace cocos2d{
 class b2BlockAllocator;
 
 class b2ChainAndCircleContact : public b2Contact
@@ -35,5 +35,5 @@ public:
 
 	void Evaluate(b2Manifold* manifold, const b2Transform& xfA, const b2Transform& xfB);
 };
-
+}
 #endif

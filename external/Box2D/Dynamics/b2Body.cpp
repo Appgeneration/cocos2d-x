@@ -21,6 +21,7 @@
 #include <Box2D/Dynamics/b2World.h>
 #include <Box2D/Dynamics/Contacts/b2Contact.h>
 #include <Box2D/Dynamics/Joints/b2Joint.h>
+using namespace cocos2d;
 
 b2Body::b2Body(const b2BodyDef* bd, b2World* world)
 {

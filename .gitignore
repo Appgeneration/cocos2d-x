@@ -123,7 +123,6 @@ project.properties
 /external/json/
 /external/linux-specific/
 /external/lua/
-/external/png/
 /external/sqlite3/
 /external/tiff/
 /external/tinyxml2/

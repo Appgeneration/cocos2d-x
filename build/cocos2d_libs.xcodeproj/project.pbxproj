@@ -914,8 +914,6 @@
 		1AD71EF6180E27CF00808F54 /* CCPhysicsSprite.h in Headers */ = {isa = PBXBuildFile; fileRef = 1AD71EEF180E27CF00808F54 /* CCPhysicsSprite.h */; };
 		1AD71EF7180E27CF00808F54 /* CCPhysicsSprite.h in Headers */ = {isa = PBXBuildFile; fileRef = 1AD71EEF180E27CF00808F54 /* CCPhysicsSprite.h */; };
 		1E2842CA1C15D1FF00D70230 /* CCImage.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50ABBF271926664700A911A9 /* CCImage.cpp */; };
-		1E7CDDF51C9780B200FC6CC8 /* libjpeg.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1E7CDDF41C9780B200FC6CC8 /* libjpeg.a */; };
-		1E7CDDF61C9780B200FC6CC8 /* libjpeg.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1E7CDDF41C9780B200FC6CC8 /* libjpeg.a */; };
 		1E8B467D1C455E72003D6C23 /* libpng.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1A570363180BD1120088DEC7 /* libpng.a */; };
 		1EA2CD781C92DF7B009EFED9 /* libfreetype.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1A57052D180BD3280088DEC7 /* libfreetype.a */; };
 		2905FA4018CF08D100240AA3 /* CocosGUI.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2905F9E918CF08D000240AA3 /* CocosGUI.cpp */; };
@@ -1765,6 +1763,7 @@
 		50FCEBCA18C72017004AD434 /* WidgetReader.h in Headers */ = {isa = PBXBuildFile; fileRef = 50FCEB9118C72017004AD434 /* WidgetReader.h */; };
 		50FCEBCB18C72017004AD434 /* WidgetReaderProtocol.h in Headers */ = {isa = PBXBuildFile; fileRef = 50FCEB9218C72017004AD434 /* WidgetReaderProtocol.h */; };
 		50FCEBCC18C72017004AD434 /* WidgetReaderProtocol.h in Headers */ = {isa = PBXBuildFile; fileRef = 50FCEB9218C72017004AD434 /* WidgetReaderProtocol.h */; };
+		98F17AB61DB6138D0036CCEA /* libjpeg.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1E7CDDF41C9780B200FC6CC8 /* libjpeg.a */; };
 		A07A4CAF1783777C0073F6A7 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1551A342158F2AB200E66CFE /* Foundation.framework */; };
 		B24AA985195A675C007B4522 /* CCFastTMXLayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B24AA981195A675C007B4522 /* CCFastTMXLayer.cpp */; };
 		B24AA986195A675C007B4522 /* CCFastTMXLayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B24AA981195A675C007B4522 /* CCFastTMXLayer.cpp */; };
@@ -2927,7 +2926,6 @@
 				B3B12A5A17E7F44000026B4A /* libchipmunk Mac.a in Frameworks */,
 				1A94D35116C2072800D79D09 /* Foundation.framework in Frameworks */,
 				1A570347180BD0850088DEC7 /* libglfw3.a in Frameworks */,
-				1E7CDDF51C9780B200FC6CC8 /* libjpeg.a in Frameworks */,
 				1A570361180BD1080088DEC7 /* libpng.a in Frameworks */,
 				1A57037B180BD1C90088DEC7 /* libjpeg.a in Frameworks */,
 				1A5703A1180BD22C0088DEC7 /* libtiff.a in Frameworks */,
@@ -2971,7 +2969,7 @@
 			files = (
 				B3B12A5B17E7F45C00026B4A /* libchipmunk iOS.a in Frameworks */,
 				A07A4CAF1783777C0073F6A7 /* Foundation.framework in Frameworks */,
-				1E7CDDF61C9780B200FC6CC8 /* libjpeg.a in Frameworks */,
+				98F17AB61DB6138D0036CCEA /* libjpeg.a in Frameworks */,
 				1A5703A4180BD2350088DEC7 /* libtiff.a in Frameworks */,
 				1A5703BB180BD2800088DEC7 /* libwebp.a in Frameworks */,
 				1AAF5388180E35AC000584C8 /* libwebsockets.a in Frameworks */,
@@ -7467,7 +7465,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 5.1.1;
 				LIBRARY_SEARCH_PATHS = (
 					"\"$(SRCROOT)/../external/png/prebuilt/ios\"",
-					"\"$(SRCROOT)/../external/jpeg/prebuilt/ios\"",
+					"\"$(SRCROOT)/../external/jpeg-unity-fix-ios\"",
 					"\"$(SRCROOT)/../external/tiff/prebuilt/ios\"",
 					"\"$(SRCROOT)/../external/webp/prebuilt/ios\"",
 					"\"$(SRCROOT)/../external/freetype2/prebuilt/ios\"",
@@ -7498,7 +7496,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 5.1.1;
 				LIBRARY_SEARCH_PATHS = (
 					"\"$(SRCROOT)/../external/png/prebuilt/ios\"",
-					"\"$(SRCROOT)/../external/jpeg/prebuilt/ios\"",
+					"\"$(SRCROOT)/../external/jpeg-unity-fix-ios\"",
 					"\"$(SRCROOT)/../external/tiff/prebuilt/ios\"",
 					"\"$(SRCROOT)/../external/webp/prebuilt/ios\"",
 					"\"$(SRCROOT)/../external/freetype2/prebuilt/ios\"",
